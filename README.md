@@ -1,2 +1,0 @@
-# booking-app
-Booking application

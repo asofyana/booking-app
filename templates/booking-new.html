@@ -1,0 +1,122 @@
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+      <!-- page content -->
+      <div class="right_col" role="main">
+        <div class="">
+					<div class="page-title">
+						<div class="title_left">
+							<h3>New Booking</h3>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+              <div class="x_panel">
+                <div class="x_content">
+
+									{{if .alert }}
+									<div class="alert {{ .alert }}" role="alert">
+										{{.message}}
+									</div>
+									{{end}}
+
+									<br />
+                  <form method="POST" id="BookingNewForm" name="BookingNewForm" data-parsley-validate class="form-horizontal form-label-left">
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="title" name="title" value="{{.booking.Title}}" required="required" class="form-control ">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="description">Description <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="description" name="description" value="{{.booking.Description}}" required="required" class="form-control ">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="room">Room <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<select class="form-control" name="room" id="room">
+													<option>Choose option</option>
+													{{range .Rooms}}
+													<option value="{{.RoomId}}" {{if eq .RoomId $.booking.RoomId}} selected {{end}}>{{.Name}}</option>
+													{{end}}
+												</select>
+											</div>
+                    </div>
+                    <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">Start Date/Time<span class="required">*</span>
+											</label>
+											<div class="col-md-3 col-sm-3 ">
+												<input id="start-date" name="start-date" value="{{.booking.StartDate.Format "2006-01-02"}}" class="date-picker form-control" placeholder="select date" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<script>
+													function timeFunctionLong(input) {
+														setTimeout(function() {
+															input.type = 'text';
+														}, 60000);
+													}
+												</script>
+											</div>
+											<div class="col-md-3">
+												<input type="time" id="start-time" name="start-time" value="{{.booking.StartDate.Format "15:04"}}" required="required" class="form-control time">
+											</div>
+										</div>
+                    <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">End Date/Time<span class="required">*</span>
+											</label>
+											<div class="col-md-3 col-sm-3 ">
+												<input id="end-date" name="end-date" value="{{.booking.StartDate.Format "2006-01-02"}}" class="date-picker form-control" placeholder="select date" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<script>
+													function timeFunctionLong(input) {
+														setTimeout(function() {
+															input.type = 'text';
+														}, 60000);end
+													}
+												</script>
+											</div>
+											<div class="col-md-3">
+												<input type="time" id="end-time" name="end-time" value="{{.booking.EndDate.Format "15:04"}}" required="required" class="form-control time">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="number-of-participant">Number of Participant <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="number" id="number-of-participant" name="number-of-participant" value="{{.booking.ParticipantCount}}" required="required" class="form-control ">
+											</div>
+										</div>
+										<div class="ln_solid"></div>
+										{{if ne .alert "alert-success"}}
+										<div class="item form-group">
+											<div class="col-md-6 col-sm-6 offset-md-3">
+												<button class="btn btn-primary" type="button">Cancel</button>
+												<button class="btn btn-primary" type="reset">Reset</button>
+												<button type="submit" class="btn btn-success">Submit</button>
+											</div>
+										</div>
+										{{end}}
+
+
+                  </form>
+
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+
+
+
+        </div>
+      </div>
+      <!-- /page content -->
+    
+    
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}
