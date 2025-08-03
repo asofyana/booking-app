@@ -1,0 +1,114 @@
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+      <!-- page content -->
+      <div class="right_col" role="main">
+        <div class="">
+					<div class="page-title">
+						<div class="title_left">
+							<h3>Booking Approval</h3>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+              <div class="x_panel">
+                <div class="x_content">
+
+									{{if .alert }}
+									<div class="alert {{ .alert }}" role="alert">
+										{{.message}}
+									</div>
+									{{end}}
+
+									<br />
+                  <form method="POST" action="/booking/approval" id="BookingApprovalForm" name="BookingApprovalForm" data-parsley-validate class="form-horizontal form-label-left">
+										<input type="hidden" name="bookingId" value="{{.booking.BookingId}}">
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												{{.booking.Title}}
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="description">Description <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												{{.booking.Description}}
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="activity">Activity <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												{{.booking.ActivityText}}
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="room">Room <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+                        {{.booking.RoomName}}
+											</div>
+                    </div>
+                    <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">Start Date/Time<span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												{{.booking.StartDate.Format "2006-01-02"}}
+												{{.booking.StartDate.Format "15:04"}}
+											</div>
+										</div>
+                    <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">End Date/Time<span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												{{.booking.EndDate.Format "2006-01-02"}}
+												{{.booking.EndDate.Format "15:04"}}
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="number-of-participant">Number of Participant <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												{{.booking.ParticipantCount}}
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="booking-status">Booking Status <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												{{.booking.Status}}
+											</div>
+										</div>
+										<div class="ln_solid"></div>
+										<div class="item form-group">
+											<div class="col-md-6 col-sm-6 offset-md-3">
+												{{if ne .alert "alert-success"}}
+												<button type="submit" name="btnAction" class="btn btn-success" value="Approve">Approve</button>
+												<button type="submit" name="btnAction" class="btn btn-danger" value="Reject">Reject</button>
+												{{end}}
+												<button type="button" class="btn btn-back" onclick="location.href='/booking/home'">Back</button>
+											</div>
+										</div>
+
+
+                  </form>
+
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+
+
+
+        </div>
+      </div>
+      <!-- /page content -->
+    
+    
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}

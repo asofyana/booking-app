@@ -2,12 +2,22 @@
   <div class="menu_section">
     <h3>General</h3>
     <ul class="nav side-menu">
-      <li><a href="/home"><i class="fa fa-home"></i> Home </a>
+      <li><a href="/home"><i class="fa fa-home"></i> Dashboard </a>
       </li>
       <li><a><i class="fa fa-edit"></i> Booking <span class="fa fa-chevron-down"></span></a>
         <ul class="nav child_menu">
+          <li><a href="/booking/home">Home</a></li>
           <li><a href="/booking/create">Create New Booking</a></li>
         </ul>
+      </li>
+      {{if eq .User.Role "admin"}}
+      <li><a><i class="fa fa-edit"></i> Admin <span class="fa fa-chevron-down"></span></a>
+        <ul class="nav child_menu">
+          <li><a href="/admin">User Management</a></li>
+        </ul>
+      </li>
+      {{end}}
+      <li><a href="/logout"><i class="fa fa-close"></i>Logout </a>
       </li>
     </ul>
   </div>

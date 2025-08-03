@@ -1,6 +1,7 @@
 package services
 
 import (
+	"booking-app/internal/entity"
 	"booking-app/internal/repository"
 	"fmt"
 
@@ -18,24 +19,24 @@ func NewLoginService(userRepository repository.UserRepositoryInterface) *LoginSe
 }
 
 type LoginServiceInterface interface {
-	ProcessLogin(c *gin.Context, username, password string) error
+	ProcessLogin(c *gin.Context, username, password string) (entity.User, error)
 }
 
-func (s *LoginService) ProcessLogin(c *gin.Context, username, password string) error {
+func (s *LoginService) ProcessLogin(c *gin.Context, username, password string) (entity.User, error) {
 	user, err := s.UserRepository.GetByUserName(username)
 	if err != nil {
-		return err
+		return entity.User{}, err
 	}
 
 	if user.UserName == "" {
-		return fmt.Errorf("invalid username or password")
+		return entity.User{}, fmt.Errorf("invalid username or password")
 	}
 
 	if user.Password != password {
-		return fmt.Errorf("invalid username or password")
+		return entity.User{}, fmt.Errorf("invalid username or password")
 	}
 
 	SetUserSession(c, user)
 
-	return nil
+	return user, nil
 }

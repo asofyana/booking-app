@@ -37,6 +37,18 @@
 											</div>
 										</div>
 										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="activity">Activity <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<select class="form-control" name="activity" id="activity">
+													<option>Choose option</option>
+													{{range .Activities}}
+													<option value="{{.LookupCode}}" {{if eq .LookupCode $.booking.Activity}} selected {{end}}>{{.LookupText}}</option>
+													{{end}}
+												</select>
+											</div>
+                    </div>
+										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="room">Room <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
@@ -69,7 +81,7 @@
 											<label class="col-form-label col-md-3 col-sm-3 label-align">End Date/Time<span class="required">*</span>
 											</label>
 											<div class="col-md-3 col-sm-3 ">
-												<input id="end-date" name="end-date" value="{{.booking.StartDate.Format "2006-01-02"}}" class="date-picker form-control" placeholder="select date" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<input id="end-date" name="end-date" value="{{.booking.EndDate.Format "2006-01-02"}}" class="date-picker form-control" placeholder="select date" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 												<script>
 													function timeFunctionLong(input) {
 														setTimeout(function() {

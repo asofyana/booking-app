@@ -5,6 +5,7 @@ CREATE TABLE USERS (
   full_name text not null,
   email text,
   phone_number text,
+  role text,
   created_date timestamp default current_timestamp not null,
   created_by text,
   updated_date timestamp default current_timestamp not null,
@@ -33,8 +34,20 @@ CREATE TABLE BOOKING (
   start_date timestamp not null,
   end_date timestamp not null,
   participant_count integer,
+  activity_code string,
+  status text,
   created_date timestamp default current_timestamp not null,
   created_by text,
   updated_date timestamp default current_timestamp not null,
   updated_by text
 );
+
+create table LOOKUP (
+  lookup_type text not null,
+  lookup_code text not null,
+  lookup_text text not null,
+  lookup_status text not null
+)
+
+insert into lookup(lookup_type, lookup_code, lookup_text) values ('ACTIVITY', 'ACT_1', 'Activity 1');
+insert into lookup(lookup_type, lookup_code, lookup_text) values ('ACTIVITY', 'ACT_2', 'Activity 2');

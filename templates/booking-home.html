@@ -1,0 +1,90 @@
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>My Incoming Booking </h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Room Name</th>
+                          <th>Participant Count</th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{range .UserIncomingBooking}}
+                        <tr>
+                          <td>{{.Title}}</td>
+                          <td>{{.Description}}</td>
+                          <td>{{.RoomName}}</td>
+                          <td>{{.ParticipantCount}}</td>
+                          <td>{{.StartDate | formatDate}}</td>
+                          <td>{{.EndDate | formatDate}}</td>
+                          <td>{{.Status}}</td>
+                        </tr>
+                        {{end}}
+                      </tbody>
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+
+              
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>All Incoming Booking </h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Title</th>
+                          <th>Room Name</th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{range .AllIncomingBooking}}
+                        <tr>
+                          {{if and (eq $.User.Role "admin") (eq .Status "Pending")}}
+                          <td><a href="/booking/approval?id={{.BookingId}}">{{.Title}}</a></td>
+                          {{else}}
+                          <td>{{.Title}}</td>
+                          {{end}}
+                          <td>{{.RoomName}}</td>
+                          <td>{{.StartDate | formatDate}}</td>
+                          <td>{{.EndDate | formatDate}}</td>
+                          <td>{{.Status}}</td>
+                        </tr>
+                        {{end}}
+                      </tbody>
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+
+    
+        </div>
+        <!-- /page content -->
+    
+    
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}

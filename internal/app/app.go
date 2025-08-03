@@ -6,6 +6,8 @@ import (
 	"booking-app/internal/repository"
 	"booking-app/internal/services"
 	"log"
+	"text/template"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -33,11 +35,18 @@ func (a *App) Start() error {
 
 	roomRepository := repository.NewRoomRepository(dbConn.DB)
 	bookingRepository := repository.NewBookingRepository(dbConn.DB)
+	lookupRepository := repository.NewLookupRepository(dbConn.DB)
 	roomService := services.NewRoomService(roomRepository)
 	bookingService := services.NewBookingService(bookingRepository)
-	bookingHandler := handler.NewBookingHandler(roomService, bookingService)
+	lookupService := services.NewLookupService(lookupRepository)
+	homeHandler := handler.NewHomeHandler()
+	bookingHandler := handler.NewBookingHandler(roomService, bookingService, lookupService)
 
 	app := gin.Default()
+
+	app.SetFuncMap(template.FuncMap{
+		"formatDate": formatDate,
+	})
 
 	// Process the templates at the start so that they don't have to be loaded
 	// from the disk again. This makes serving HTML pages very fast.
@@ -46,9 +55,17 @@ func (a *App) Start() error {
 	app.Static("/assets", "./static")
 
 	gin.SetMode(gin.DebugMode)
-	handler.InitializeRoutes(app)
+	adminService := services.NewAdminService(userRepository)
+	adminHandler := handler.NewAdminHandler(adminService)
+
+	handler.InitializeRoutes(app, homeHandler)
 	handler.RegisterRouteLogin(app, loginHandler)
-	handler.RegisterRouteBooking(app, *bookingHandler)
+	handler.RegisterRouteBooking(app, bookingHandler)
+	handler.RegisterRouteAdmin(app, adminHandler)
 
 	return app.Run(":8080")
+}
+
+func formatDate(t time.Time) string {
+	return t.Format("2006-01-02 15:04")
 }

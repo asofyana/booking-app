@@ -1,0 +1,160 @@
+{{define "content"}}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>User Management</h3>
+            </div>
+            <div class="card-body">
+                {{if .error}}
+                    <div class="alert alert-danger">{{.error}}</div>
+                {{end}}
+                
+                <div class="mb-3">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#createUserModal">
+                        Create New User
+                    </button>
+                </div>
+                
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range .users}}
+                        <tr>
+                            <td>{{.UserId}}</td>
+                            <td>{{.UserName}}</td>
+                            <td>{{.FullName}}</td>
+                            <td>{{.Email}}</td>
+                            <td>{{.PhoneNumber}}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning edit-user" 
+                                    data-id="{{.UserId}}"
+                                    data-username="{{.UserName}}"
+                                    data-fullname="{{.FullName}}"
+                                    data-email="{{.Email}}"
+                                    data-phone="{{.PhoneNumber}}">
+                                    Edit
+                                </button>
+                                <form action="/admin/users/{{.UserId}}" method="POST" style="display:inline">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create User Modal -->
+<div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createUserModalLabel">Create New User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/admin/users" method="POST">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" class="form-control" id="fullname" name="fullname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/admin/users" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <input type="hidden" id="edit-user-id" name="user_id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="edit-username">Username</label>
+                        <input type="text" class="form-control" id="edit-username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-password">Password</label>
+                        <input type="password" class="form-control" id="edit-password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-fullname">Full Name</label>
+                        <input type="text" class="form-control" id="edit-fullname" name="fullname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-email">Email</label>
+                        <input type="email" class="form-control" id="edit-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-phone">Phone Number</label>
+                        <input type="tel" class="form-control" id="edit-phone" name="phone" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('.edit-user').click(function() {
+        $('#edit-user-id').val($(this).data('id'));
+        $('#edit-username').val($(this).data('username'));
+        $('#edit-password').val(''); // Clear password field for security
+        $('#edit-fullname').val($(this).data('fullname'));
+        $('#edit-email').val($(this).data('email'));
+        $('#edit-phone').val($(this).data('phone'));
+        $('#editUserModal').modal('show');
+    });
+});
+</script>
+{{end}}

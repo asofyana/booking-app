@@ -33,10 +33,11 @@ func (s *LoginHandler) ProcessLogin(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
-	err := s.LoginService.ProcessLogin(c, username, password)
+	user, err := s.LoginService.ProcessLogin(c, username, password)
+
 	if err == nil {
-		c.HTML(http.StatusOK, "home.html", nil)
-		//c.Redirect(http.StatusTemporaryRedirect, "home")
+		c.HTML(http.StatusOK, "home.html", gin.H{"User": user})
+		//c.Redirect(http.StatusTemporaryRedirect, "/booking/home")
 		return
 	}
 

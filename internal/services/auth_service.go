@@ -46,6 +46,7 @@ func BookingAuth(c *gin.Context) {
 
 func SetUserSession(c *gin.Context, user entity.User) {
 	fmt.Println("Set User Session")
+	fmt.Println(user)
 	session, _ := store.Get(c.Request, "session")
 	session.Values["user"] = user
 	session.Options.MaxAge = 600
