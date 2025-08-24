@@ -44,7 +44,7 @@ func (s *BookingHandler) BookingNewPost(c *gin.Context) {
 	booking, err := s.BookingService.SaveBooking(c)
 	if err != nil {
 		c.HTML(http.StatusOK, "booking-new.html", gin.H{
-			"title": "New Booking", "Rooms": rooms, "Activities": activities, "booking": booking, "message": err.Error(), "alert": "alert-danger"})
+			"title": "New Booking", "User": user, "Rooms": rooms, "Activities": activities, "booking": booking, "message": err.Error(), "alert": "alert-danger"})
 		return
 	}
 

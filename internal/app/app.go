@@ -55,13 +55,15 @@ func (a *App) Start() error {
 	app.Static("/assets", "./static")
 
 	gin.SetMode(gin.DebugMode)
-	adminService := services.NewAdminService(userRepository)
-	adminHandler := handler.NewAdminHandler(adminService)
+	userService := services.NewUserService(userRepository)
+	adminHandler := handler.NewAdminHandler(userService)
+	userHandler := handler.NewUserHandler(userService)
 
 	handler.InitializeRoutes(app, homeHandler)
 	handler.RegisterRouteLogin(app, loginHandler)
 	handler.RegisterRouteBooking(app, bookingHandler)
 	handler.RegisterRouteAdmin(app, adminHandler)
+	handler.RegisterRouteUser(app, userHandler)
 
 	return app.Run(":8080")
 }

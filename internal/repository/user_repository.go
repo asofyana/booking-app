@@ -22,6 +22,7 @@ type UserRepositoryInterface interface {
 	CreateUser(user entity.User) error
 	UpdateUser(user entity.User) error
 	DeleteUser(userId string) error
+	UpdatePassword(user entity.User) error
 }
 
 func (s *UserRepository) GetByUserName(username string) (entity.User, error) {
@@ -67,6 +68,11 @@ func (s *UserRepository) CreateUser(user entity.User) error {
 func (s *UserRepository) UpdateUser(user entity.User) error {
 	_, err := s.DB.Exec("update users set username=?, password=?, full_name=?, email=?, phone_number=?, role=? where user_id=?",
 		user.UserName, user.Password, user.FullName, user.Email, user.PhoneNumber, user.Role, user.UserId)
+	return err
+}
+
+func (s *UserRepository) UpdatePassword(user entity.User) error {
+	_, err := s.DB.Exec("update users set password=? where user_id=?", user.Password, user.UserId)
 	return err
 }
 

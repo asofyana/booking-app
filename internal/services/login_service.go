@@ -3,6 +3,7 @@ package services
 import (
 	"booking-app/internal/entity"
 	"booking-app/internal/repository"
+	"booking-app/internal/utils"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -32,7 +33,7 @@ func (s *LoginService) ProcessLogin(c *gin.Context, username, password string) (
 		return entity.User{}, fmt.Errorf("invalid username or password")
 	}
 
-	if user.Password != password {
+	if !utils.VerifyPassword(password, user.Password) {
 		return entity.User{}, fmt.Errorf("invalid username or password")
 	}
 
