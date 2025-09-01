@@ -3,7 +3,9 @@ package repository
 import (
 	"booking-app/internal/entity"
 	"database/sql"
+	"fmt"
 	"log"
+	"strings"
 )
 
 type UserRepository struct {
@@ -23,6 +25,7 @@ type UserRepositoryInterface interface {
 	UpdateUser(user entity.User) error
 	DeleteUser(userId string) error
 	UpdatePassword(user entity.User) error
+	SearchUsers(user entity.User) ([]entity.User, error)
 }
 
 func (s *UserRepository) GetByUserName(username string) (entity.User, error) {
@@ -79,4 +82,56 @@ func (s *UserRepository) UpdatePassword(user entity.User) error {
 func (s *UserRepository) DeleteUser(userId string) error {
 	_, err := s.DB.Exec("delete from users where user_id = ?", userId)
 	return err
+}
+
+func (s *UserRepository) SearchUsers(user entity.User) ([]entity.User, error) {
+
+	fmt.Println("========== Search User")
+
+	sql := "select user_id, username, password, full_name, IFNULL(email,'') as email, IFNULL(phone_number,'') as phone_number , role from users"
+	conditions := []string{}
+	params := []interface{}{}
+
+	if user.FullName != "" {
+		conditions = append(conditions, "lower(full_name) like '%?%'")
+		params = append(params, strings.ToLower(user.FullName))
+	}
+
+	if user.UserName != "" {
+		conditions = append(conditions, "lower(username) like '%?%'")
+		params = append(params, strings.ToLower(user.UserName))
+	}
+
+	if len(conditions) > 0 {
+		sql += " WHERE " + strings.Join(conditions, " AND ")
+	}
+
+	fmt.Println("sql:", sql)
+	fmt.Println(params)
+
+	rows, err := s.DB.Query(sql, params...)
+
+	if err != nil {
+		fmt.Println("query db failed")
+		fmt.Println(err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	fmt.Println("query db success")
+
+	var users []entity.User
+	for rows.Next() {
+		fmt.Println("NEXT")
+		var user entity.User
+		err := rows.Scan(&user.UserId, &user.UserName, &user.Password, &user.FullName, &user.Email, &user.PhoneNumber, &user.Role)
+		if err != nil {
+			fmt.Println("scan failed")
+			fmt.Println(err)
+			return nil, err
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
 }

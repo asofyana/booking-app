@@ -14,6 +14,7 @@ func InitializeRoutes(router *gin.Engine, handler *HomeHandler) {
 func RegisterRouteAdmin(router *gin.Engine, handler *AdminHandler) {
 	adminRouter := router.Group("/admin", services.AdminAuth)
 	adminRouter.GET("/user-search", handler.UserSearch)
+	adminRouter.POST("/user-search", handler.UserSearchPost)
 }
 
 func RegisterRouteBooking(router *gin.Engine, handler *BookingHandler) {

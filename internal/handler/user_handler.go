@@ -18,16 +18,19 @@ func NewUserHandler(userService services.UserServiceInterface) *UserHandler {
 }
 
 func (s *UserHandler) ShowChangePasswordPage(c *gin.Context) {
+	user := services.GetUserSession(c)
 	c.HTML(
 		http.StatusOK,
 		"change-password.html",
 		gin.H{
-			"title": "Change Password",
+			"title": "Change Password", "User": user,
 		},
 	)
 }
 
 func (s *UserHandler) ProcessChangePassword(c *gin.Context) {
+	user := services.GetUserSession(c)
+
 	oldPassword := c.PostForm("old-password")
 	newPassword := c.PostForm("new-password")
 	confirmPassword := c.PostForm("confirm-password")
@@ -42,6 +45,6 @@ func (s *UserHandler) ProcessChangePassword(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "change-password.html", gin.H{
-		"title": "Change Password", "message": message, "alert": alert})
+		"title": "Change Password", "User": user, "message": message, "alert": alert})
 
 }

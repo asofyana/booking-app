@@ -14,15 +14,76 @@
               <div class="x_panel">
                 <div class="x_content">
 
+                  <form method="POST" action="/admin/user-search" id="SearchUserForm" name="SearchUserForm" data-parsley-validate class="form-horizontal form-label-left">
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="full_name">Name 
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="fullName" name="fullName" class="form-control ">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="userName">Username
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="username" name="username" class="form-control ">
+											</div>
+										</div>
+
+										<div class="item form-group">
+											<div class="col-md-6 col-sm-6 offset-md-3">
+												<button class="btn btn-primary" type="reset">Reset</button>
+												<button type="submit" class="btn btn-success">Search</button>
+											</div>
+										</div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
 
 
+          <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+              <div class="x_panel">
+                <div class="x_content">
 
 
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>User Name</th>
+                          <th>Full Name</th>
+                          <th>Title</th>
+                          <th>Email</th>
+                          <th>Phone Number</th>
+                          <th>Role</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{range .UserSearchList}}
+                        <tr>
+                          <td>{{.UserName}}</td>
+                          <td>{{.FullName}}</td>
+                          <td></td>
+                          <td>{{.Email}}</td>
+                          <td>{{.PhoneNumber}}</td>
+                          <td>{{.Role}}</td>
+                          <td></td>
+                        </tr>
+                        {{end}}
+                      </tbody>
+                    </table>
 
                 </div>
               </div>
             </div>
           </div>
+
+
+
+
         </div>
       </div>
       <!-- /page content -->

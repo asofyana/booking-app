@@ -15,6 +15,7 @@ type UserServiceInterface interface {
 	UpdateUser(user entity.User) error
 	DeleteUser(userId string) error
 	UpdatePassword(c *gin.Context, oldPassword, newPassword, confirmPassword string) error
+	SearchUsers(user entity.User) ([]entity.User, error)
 }
 
 type UserService struct {
@@ -51,7 +52,7 @@ func (s *UserService) UpdatePassword(c *gin.Context, oldPassword, newPassword, c
 
 	minLength := 6
 	if len(newPassword) < minLength {
-		return fmt.Errorf("Password length minimum %d", minLength)
+		return fmt.Errorf("password length minimum %d", minLength)
 	}
 
 	if newPassword != confirmPassword {
@@ -62,7 +63,7 @@ func (s *UserService) UpdatePassword(c *gin.Context, oldPassword, newPassword, c
 	userDb, _ := s.userRepo.GetByUserName(user.UserName)
 
 	if !utils.VerifyPassword(oldPassword, userDb.Password) {
-		return fmt.Errorf("Invalid old password")
+		return fmt.Errorf("invalid old password")
 	}
 
 	hashedPassword, _ := utils.HashPassword(newPassword)
@@ -70,8 +71,12 @@ func (s *UserService) UpdatePassword(c *gin.Context, oldPassword, newPassword, c
 	err := s.userRepo.UpdatePassword(userDb)
 
 	if err != nil {
-		return fmt.Errorf("Error update password")
+		return fmt.Errorf("error update password")
 	}
 
 	return nil
+}
+
+func (s *UserService) SearchUsers(user entity.User) ([]entity.User, error) {
+	return s.userRepo.SearchUsers(user)
 }
