@@ -90,6 +90,6 @@ func (s *UserService) GetUserById(userid int) (entity.User, error) {
 func (s *UserService) ResetPassword(userid int) error {
 	var user entity.User
 	user.UserId = userid
-	user.Password = "$2a$14$LvH7NqXjDPMzf.gJjWOI0etKFyV0xIsPohC6Z125KUUCKolh.sZ/a"
+	user.Password = utils.GetConfig().DefaultPassword
 	return s.userRepo.UpdatePassword(user)
 }

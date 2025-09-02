@@ -86,9 +86,6 @@ func (s *UserRepository) DeleteUser(userId string) error {
 }
 
 func (s *UserRepository) SearchUsers(user entity.User) ([]entity.User, error) {
-
-	fmt.Println("========== Search User")
-
 	sql := "select user_id, username, password, full_name, IFNULL(email,'') as email, IFNULL(phone_number,'') as phone_number , role from users"
 	conditions := []string{}
 	params := []interface{}{}
@@ -106,9 +103,6 @@ func (s *UserRepository) SearchUsers(user entity.User) ([]entity.User, error) {
 	if len(conditions) > 0 {
 		sql += " WHERE " + strings.Join(conditions, " AND ")
 	}
-
-	fmt.Println("sql:", sql)
-	fmt.Println(params)
 
 	rows, err := s.DB.Query(sql, params...)
 
