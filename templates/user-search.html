@@ -52,8 +52,8 @@
                     <table class="table table-hover">
                       <thead>
                         <tr>
-                          <th>User Name</th>
                           <th>Full Name</th>
+                          <th>User Name</th>
                           <th>Title</th>
                           <th>Email</th>
                           <th>Phone Number</th>
@@ -64,8 +64,8 @@
                       <tbody>
                         {{range .UserSearchList}}
                         <tr>
+                          <td><a href="/admin/user-detail?userid={{.UserId}}">{{.FullName}}</a></td>
                           <td>{{.UserName}}</td>
-                          <td>{{.FullName}}</td>
                           <td></td>
                           <td>{{.Email}}</td>
                           <td>{{.PhoneNumber}}</td>

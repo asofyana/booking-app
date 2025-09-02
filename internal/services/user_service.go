@@ -16,6 +16,8 @@ type UserServiceInterface interface {
 	DeleteUser(userId string) error
 	UpdatePassword(c *gin.Context, oldPassword, newPassword, confirmPassword string) error
 	SearchUsers(user entity.User) ([]entity.User, error)
+	GetUserById(userid int) (entity.User, error)
+	ResetPassword(userid int) error
 }
 
 type UserService struct {
@@ -79,4 +81,15 @@ func (s *UserService) UpdatePassword(c *gin.Context, oldPassword, newPassword, c
 
 func (s *UserService) SearchUsers(user entity.User) ([]entity.User, error) {
 	return s.userRepo.SearchUsers(user)
+}
+
+func (s *UserService) GetUserById(userid int) (entity.User, error) {
+	return s.userRepo.GetByUserId(userid)
+}
+
+func (s *UserService) ResetPassword(userid int) error {
+	var user entity.User
+	user.UserId = userid
+	user.Password = "$2a$14$LvH7NqXjDPMzf.gJjWOI0etKFyV0xIsPohC6Z125KUUCKolh.sZ/a"
+	return s.userRepo.UpdatePassword(user)
 }

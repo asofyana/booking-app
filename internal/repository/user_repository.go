@@ -26,6 +26,7 @@ type UserRepositoryInterface interface {
 	DeleteUser(userId string) error
 	UpdatePassword(user entity.User) error
 	SearchUsers(user entity.User) ([]entity.User, error)
+	GetByUserId(userid int) (entity.User, error)
 }
 
 func (s *UserRepository) GetByUserName(username string) (entity.User, error) {
@@ -134,4 +135,18 @@ func (s *UserRepository) SearchUsers(user entity.User) ([]entity.User, error) {
 	}
 
 	return users, nil
+}
+
+func (s *UserRepository) GetByUserId(userid int) (entity.User, error) {
+	result := s.DB.QueryRow("select user_id, username, password, full_name, role from users where user_id = ?", userid)
+
+	var user entity.User
+
+	err := result.Scan(&user.UserId, &user.UserName, &user.Password, &user.FullName, &user.Role)
+	if err != nil {
+		log.Println("Error scanning user: ", err.Error())
+		return entity.User{}, err
+	}
+
+	return user, nil
 }

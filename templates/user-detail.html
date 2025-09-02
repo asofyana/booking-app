@@ -14,10 +14,68 @@
               <div class="x_panel">
                 <div class="x_content">
 
+ 									{{if .alert }}
+									<div class="alert {{ .alert }}" role="alert">
+										{{.message}}
+									</div>
+									{{end}}
 
+                  <form method="POST" action="/admin/user-detail" id="SearchUserForm" name="SearchUserForm" data-parsley-validate class="form-horizontal form-label-left">
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="full_name">Name 
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input readonly type="text" id="fullName" name="fullName" class="form-control" value="{{.UserDetail.FullName}}">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="userName">Username
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input readonly type="text" id="username" name="username" class="form-control" value="{{.UserDetail.UserName}}">
+											</div>
+										</div>
 
-                  
+                    <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input readonly type="text" id="title" name="title" class="form-control" value="">
+											</div>
+										</div>
 
+                    
+                    <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="email">Email
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input readonly type="text" id="email" name="email" class="form-control" value="{{.UserDetail.Email}}">
+											</div>
+										</div>
+
+                    <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="phone">Phone Number
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input readonly type="text" id="phoneNumber" name="phoneNumber" class="form-control" value="{{.UserDetail.PhoneNumber}}">
+											</div>
+										</div>
+
+                    <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="role">Role
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input readonly type="text" id="role" name="role" class="form-control" value="{{.UserDetail.Role}}">
+											</div>
+										</div>
+
+										<div class="item form-group">
+											<div class="col-md-6 col-sm-6 offset-md-3">
+                        <input type="hidden" name="userid" value="{{.UserDetail.UserId}}">
+												<button type="submit" class="btn btn-success" name="btnSubmit" value="Reset Password">Reset Password</button>
+											</div>
+										</div>
+                  </form>
 
                 </div>
               </div>
