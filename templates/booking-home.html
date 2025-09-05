@@ -7,20 +7,20 @@
               <div class="col-md-12 col-sm-12  ">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>My Incoming Booking </h2>
+                    <h2>{{ T .Context "booking_incoming_self" nil }}</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <table class="table table-hover">
                       <thead>
                         <tr>
-                          <th>Title</th>
-                          <th>Description</th>
-                          <th>Room Name</th>
-                          <th>Participant Count</th>
-                          <th>Start Date</th>
-                          <th>End Date</th>
-                          <th>Status</th>
+                          <th>{{ T .Context "booking_title" nil }}</th>
+                          <th>{{ T .Context "booking_desc" nil }}</th>
+                          <th>{{ T .Context "booking_room_name" nil }}</th>
+                          <th>{{ T .Context "booking_participant_count" nil }}</th>
+                          <th>{{ T .Context "booking_start_date" nil }}</th>
+                          <th>{{ T .Context "booking_end_date" nil }}</th>
+                          <th>{{ T .Context "booking_status" nil }}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -42,22 +42,21 @@
                 </div>
               </div>
 
-              
               <div class="col-md-12 col-sm-12  ">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>All Incoming Booking </h2>
+                    <h2>{{ T .Context "booking_incoming_all" nil }} </h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <table class="table table-hover">
                       <thead>
                         <tr>
-                          <th>Title</th>
-                          <th>Room Name</th>
-                          <th>Start Date</th>
-                          <th>End Date</th>
-                          <th>Status</th>
+                          <th>{{ T .Context "booking_title" nil }}</th>
+                          <th>{{ T .Context "booking_room_name" nil }}</th>
+                          <th>{{ T .Context "booking_start_date" nil }}</th>
+                          <th>{{ T .Context "booking_end_date" nil }}</th>
+                          <th>{{ T .Context "booking_status" nil }}</th>
                         </tr>
                       </thead>
                       <tbody>

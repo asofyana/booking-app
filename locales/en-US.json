@@ -1,0 +1,21 @@
+{
+  "booking_home": "Home",
+  "booking_new": "Create New Booking",
+  "booking_incoming_self": "My Incoming Booking",
+  "booking_incoming_all": "All Incoming Booking",
+  "booking_title": "Title",
+  "booking_desc": "Description",
+  "booking_room_name": "Room Name",
+  "booking_activity": "Activity Name",
+  "booking_participant_count": "Estimated Number of Participant",
+  "booking_start_date": "Start Date",
+  "booking_end_date": "End Date",
+  "booking_status": "Status",
+  "admin_change_password": "Change Password",
+  "admin_user_management": "User Management",
+  "old_password": "Old Password",
+  "new_password": "New Password",
+  "confirm_password": "Confirm Password",
+  "choose_option": "Choose Option",
+  "select_date": "Select Date"
+}

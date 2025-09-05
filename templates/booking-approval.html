@@ -24,35 +24,35 @@
                   <form method="POST" action="/booking/approval" id="BookingApprovalForm" name="BookingApprovalForm" data-parsley-validate class="form-horizontal form-label-left">
 										<input type="hidden" name="bookingId" value="{{.booking.BookingId}}">
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="title">{{ T .Context "booking_title" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												{{.booking.Title}}
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="description">Description <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="description">{{ T .Context "booking_desc" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												{{.booking.Description}}
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="activity">Activity <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="activity">{{ T .Context "booking_activity" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												{{.booking.ActivityText}}
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="room">Room <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="room">{{ T .Context "booking_room_name" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
                         {{.booking.RoomName}}
 											</div>
                     </div>
                     <div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align">Start Date/Time<span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align">{{ T .Context "booking_start_date" nil }}<span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												{{.booking.StartDate.Format "2006-01-02"}}
@@ -60,7 +60,7 @@
 											</div>
 										</div>
                     <div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align">End Date/Time<span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align">{{ T .Context "booking_end_date" nil }}<span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												{{.booking.EndDate.Format "2006-01-02"}}
@@ -68,14 +68,14 @@
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="number-of-participant">Number of Participant <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="number-of-participant">{{ T .Context "booking_participant_count" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												{{.booking.ParticipantCount}}
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="booking-status">Booking Status <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="booking-status">{{ T .Context "booking_status" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												{{.booking.Status}}

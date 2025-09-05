@@ -10,7 +10,7 @@ import (
 
 type Config struct {
 	DefaultPassword string `yaml:"defaultPassword"`
-	Language        string `yaml:"language"`
+	DefaultLanguage string `yaml:"defaultLanguage"`
 }
 
 var config Config

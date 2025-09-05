@@ -5,7 +5,7 @@
         <div class="">
 					<div class="page-title">
 						<div class="title_left">
-							<h3>New Booking</h3>
+							<h3>{{ T .Context "booking_new" nil }}</h3>
 						</div>
 					</div>
 					<div class="clearfix"></div>
@@ -23,25 +23,25 @@
 									<br />
                   <form method="POST" id="BookingNewForm" name="BookingNewForm" data-parsley-validate class="form-horizontal form-label-left">
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="title">{{ T .Context "booking_title" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<input type="text" id="title" name="title" value="{{.booking.Title}}" required="required" class="form-control ">
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="description">Description <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="description">{{ T .Context "booking_desc" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<input type="text" id="description" name="description" value="{{.booking.Description}}" required="required" class="form-control ">
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="activity">Activity <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="activity">{{ T .Context "booking_activity" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<select class="form-control" name="activity" id="activity">
-													<option>Choose option</option>
+													<option>{{ T .Context "choose_option" nil }}</option>
 													{{range .Activities}}
 													<option value="{{.LookupCode}}" {{if eq .LookupCode $.booking.Activity}} selected {{end}}>{{.LookupText}}</option>
 													{{end}}
@@ -49,11 +49,11 @@
 											</div>
                     </div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="room">Room <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="room">{{ T .Context "booking_room_name" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<select class="form-control" name="room" id="room">
-													<option>Choose option</option>
+													<option>{{ T .Context "choose_option" nil }}</option>
 													{{range .Rooms}}
 													<option value="{{.RoomId}}" {{if eq .RoomId $.booking.RoomId}} selected {{end}}>{{.Name}}</option>
 													{{end}}
@@ -61,10 +61,10 @@
 											</div>
                     </div>
                     <div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align">Start Date/Time<span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align">{{ T .Context "booking_start_date" nil }}<span class="required">*</span>
 											</label>
 											<div class="col-md-3 col-sm-3 ">
-												<input id="start-date" name="start-date" value="{{.booking.StartDate.Format "2006-01-02"}}" class="date-picker form-control" placeholder="select date" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<input id="start-date" name="start-date" value="{{.booking.StartDate.Format "2006-01-02"}}" class="date-picker form-control" placeholder="{{ T .Context "select_date" nil }}" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 												<script>
 													function timeFunctionLong(input) {
 														setTimeout(function() {
@@ -78,10 +78,10 @@
 											</div>
 										</div>
                     <div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align">End Date/Time<span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align">{{ T .Context "booking_end_date" nil }}<span class="required">*</span>
 											</label>
 											<div class="col-md-3 col-sm-3 ">
-												<input id="end-date" name="end-date" value="{{.booking.EndDate.Format "2006-01-02"}}" class="date-picker form-control" placeholder="select date" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<input id="end-date" name="end-date" value="{{.booking.EndDate.Format "2006-01-02"}}" class="date-picker form-control" placeholder="{{ T .Context "select_date" nil }}" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 												<script>
 													function timeFunctionLong(input) {
 														setTimeout(function() {
@@ -95,7 +95,7 @@
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="number-of-participant">Number of Participant <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="number-of-participant">{{ T .Context "booking_participant_count" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<input type="number" id="number-of-participant" name="number-of-participant" value="{{.booking.ParticipantCount}}" required="required" class="form-control ">

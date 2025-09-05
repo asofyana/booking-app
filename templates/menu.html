@@ -6,15 +6,15 @@
       </li>
       <li><a><i class="fa fa-edit"></i> Booking <span class="fa fa-chevron-down"></span></a>
         <ul class="nav child_menu">
-          <li><a href="/booking/home">Home</a></li>
-          <li><a href="/booking/create">Create New Booking</a></li>
+          <li><a href="/booking/home">{{ T .Context "booking_home" nil }}</a></li>
+          <li><a href="/booking/create">{{ T .Context "booking_new" nil }}</a></li>
         </ul>
       </li>
       <li><a><i class="fa fa-edit"></i> Admin <span class="fa fa-chevron-down"></span></a>
         <ul class="nav child_menu">
-          <li><a href="/user/change-password">Change Password</a></li>
+          <li><a href="/user/change-password">{{ T .Context "admin_change_password" nil }}</a></li>
           {{if eq .User.Role "admin"}}
-          <li><a href="/admin/user-search">User Management</a></li>
+          <li><a href="/admin/user-search">{{ T .Context "admin_user_management" nil }}</a></li>
           {{end}}
         </ul>
       </li>
