@@ -10,6 +10,8 @@ type User struct {
 	Email       string    `json:"email"`
 	PhoneNumber string    `json:"phone_number"`
 	Role        string    `json:"role"`
+	Title       string    `json:"title"`
+	Status      string    `json:"status"`
 	CreatedDate time.Time `json:"created_date"`
 	CreatedBy   string    `json:"created_by"`
 	UpdatedDate time.Time `json:"updated_date"`
