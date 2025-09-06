@@ -114,3 +114,49 @@ func (s *BookingHandler) BookingApprovalPost(c *gin.Context) {
 		"title": "Booking Approval", "User": user, "booking": booking, "message": message, "alert": alert})
 
 }
+
+func (s *BookingHandler) BookingView(c *gin.Context) {
+
+	bookingIdStr, _ := c.GetQuery("id")
+	bookingIdInt, _ := strconv.Atoi(bookingIdStr)
+	booking, _ := s.BookingService.GetBookingById(c, bookingIdInt)
+	user := services.GetUserSession(c)
+
+	c.HTML(http.StatusOK, "booking-view.html", gin.H{
+		"title": "Booking Approval", "User": user, "booking": booking})
+
+}
+
+func (s *BookingHandler) BookingViewPost(c *gin.Context) {
+
+	bookingIdStr := c.Request.FormValue("bookingId")
+	bookingIdInt, _ := strconv.Atoi(bookingIdStr)
+	booking, err := s.BookingService.GetBookingById(c, bookingIdInt)
+	user := services.GetUserSession(c)
+	message := ""
+	alert := "alert-danger"
+
+	if err != nil {
+		fmt.Println("Error: ", err.Error())
+		message = "Invalid Booking"
+	}
+
+	if message == "" {
+		action := c.Request.FormValue("btnAction")
+		if action == "Cancel" {
+			booking.Status = "Approved"
+			err := s.BookingService.UpdateBookingStatus(c, bookingIdInt, "Canceled")
+			if err == nil {
+				message = "Success"
+				alert = "alert-success"
+			} else {
+				message = "Failed to update booking"
+			}
+
+		}
+	}
+
+	c.HTML(http.StatusOK, "booking-view.html", gin.H{
+		"title": "Booking Approval", "User": user, "booking": booking, "message": message, "alert": alert})
+
+}

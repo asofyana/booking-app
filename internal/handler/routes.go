@@ -26,6 +26,8 @@ func RegisterRouteBooking(router *gin.Engine, handler *BookingHandler) {
 	bookingRouter.POST("/create", handler.BookingNewPost)
 	bookingRouter.GET("/approval", handler.BookingApproval)
 	bookingRouter.POST("/approval", handler.BookingApprovalPost)
+	bookingRouter.GET("/view", handler.BookingView)
+	bookingRouter.POST("/view", handler.BookingViewPost)
 }
 
 func RegisterRouteLogin(app *gin.Engine, handler *LoginHandler) {

@@ -26,7 +26,7 @@
                       <tbody>
                         {{range .UserIncomingBooking}}
                         <tr>
-                          <td>{{.Title}}</td>
+                          <td><a href="/booking/view?id={{.BookingId}}">{{.Title}}</a></td>
                           <td>{{.Description}}</td>
                           <td>{{.RoomName}}</td>
                           <td>{{.ParticipantCount}}</td>
@@ -62,7 +62,7 @@
                       <tbody>
                         {{range .AllIncomingBooking}}
                         <tr>
-                          {{if and (eq $.User.Role "admin") (eq .Status "Pending")}}
+                          {{if eq $.User.Role "admin"}}
                           <td><a href="/booking/approval?id={{.BookingId}}">{{.Title}}</a></td>
                           {{else}}
                           <td>{{.Title}}</td>

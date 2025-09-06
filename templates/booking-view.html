@@ -21,7 +21,7 @@
 									{{end}}
 
 									<br />
-                  <form method="POST" action="/booking/approval" id="BookingApprovalForm" name="BookingApprovalForm" data-parsley-validate class="form-horizontal form-label-left">
+                  <form method="POST" action="/booking/view" id="BookingViewForm" name="BookingViewForm" data-parsley-validate class="form-horizontal form-label-left">
 										<input type="hidden" name="bookingId" value="{{.booking.BookingId}}">
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="title">{{ T .Context "booking_title" nil }} <span class="required">*</span>
@@ -84,9 +84,10 @@
 										<div class="ln_solid"></div>
 										<div class="item form-group">
 											<div class="col-md-6 col-sm-6 offset-md-3">
-												{{if and (ne .alert "alert-success") (eq .booking.Status "Pending")}}
-												<button type="submit" name="btnAction" class="btn btn-success" value="Approve">Approve</button>
-												<button type="submit" name="btnAction" class="btn btn-danger" value="Reject">Reject</button>
+												{{if ne .alert "alert-success"}}
+                        {{if or (eq .booking.Status "Approved") (eq .booking.Status "Pending")}}
+												<button type="submit" name="btnAction" class="btn btn-danger" value="Cancel">Cancel Booking</button>
+												{{end}}
 												{{end}}
 												<button type="button" class="btn btn-back" onclick="location.href='/booking/home'">Back</button>
 											</div>
