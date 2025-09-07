@@ -112,21 +112,16 @@ func (s *UserRepository) SearchUsers(user entity.User) ([]entity.User, error) {
 	rows, err := s.DB.Query(sql, params...)
 
 	if err != nil {
-		fmt.Println("query db failed")
 		fmt.Println(err)
 		return nil, err
 	}
 	defer rows.Close()
 
-	fmt.Println("query db success")
-
 	var users []entity.User
 	for rows.Next() {
-		fmt.Println("NEXT")
 		var user entity.User
 		err := rows.Scan(&user.UserId, &user.UserName, &user.Password, &user.FullName, &user.Email, &user.PhoneNumber, &user.Role, &user.Title, &user.Status)
 		if err != nil {
-			fmt.Println("scan failed")
 			fmt.Println(err)
 			return nil, err
 		}

@@ -4,7 +4,6 @@ import (
 	"booking-app/internal/entity"
 	"booking-app/internal/repository"
 	"errors"
-	"fmt"
 	"log"
 	"strconv"
 	"time"
@@ -42,7 +41,6 @@ func (s *BookingService) SaveBooking(c *gin.Context) (entity.Booking, error) {
 	activityCode := c.PostForm("activity")
 
 	user := GetUserSession(c)
-	fmt.Println("Save Booking:", user)
 
 	booking := entity.Booking{
 		Title:            title,

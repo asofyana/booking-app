@@ -3,7 +3,6 @@ package services
 import (
 	"booking-app/internal/entity"
 	"encoding/gob"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,22 +19,19 @@ func init() {
 
 func Auth(c *gin.Context) {
 	session, _ := store.Get(c.Request, "session")
-	sesUser, ok := session.Values["user"]
-	fmt.Println("sesUser:", sesUser)
+	_, ok := session.Values["user"]
 	if !ok {
 		c.HTML(http.StatusForbidden, "login.html", nil)
 		c.Abort()
 		return
 	}
 
-	fmt.Println("middleware done")
 	c.Next()
 }
 
 func BookingAuth(c *gin.Context) {
 	session, _ := store.Get(c.Request, "session")
-	sesUser, ok := session.Values["user"]
-	fmt.Println("sesUser:", sesUser)
+	_, ok := session.Values["user"]
 	if !ok {
 		c.HTML(http.StatusForbidden, "login.html", nil)
 		c.Abort()
@@ -46,8 +42,7 @@ func BookingAuth(c *gin.Context) {
 
 func AdminAuth(c *gin.Context) {
 	session, _ := store.Get(c.Request, "session")
-	sesUser, ok := session.Values["user"]
-	fmt.Println("sesUser:", sesUser)
+	_, ok := session.Values["user"]
 	if !ok {
 		c.HTML(http.StatusForbidden, "login.html", nil)
 		c.Abort()
@@ -61,13 +56,10 @@ func AdminAuth(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("middleware done")
 	c.Next()
 }
 
 func SetUserSession(c *gin.Context, user entity.User) {
-	fmt.Println("Set User Session")
-	fmt.Println(user)
 	session, _ := store.Get(c.Request, "session")
 	session.Values["user"] = user
 	session.Options.MaxAge = 900

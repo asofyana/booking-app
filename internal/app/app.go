@@ -73,7 +73,7 @@ func (a *App) Start() error {
 
 	app.Static("/assets", "./static")
 
-	gin.SetMode(gin.DebugMode)
+	//gin.SetMode(gin.DebugMode)
 	userService := services.NewUserService(userRepository)
 	adminHandler := handler.NewAdminHandler(userService, lookupService)
 	userHandler := handler.NewUserHandler(userService)

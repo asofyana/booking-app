@@ -3,7 +3,6 @@ package handler
 import (
 	"booking-app/internal/entity"
 	"booking-app/internal/services"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -38,9 +37,6 @@ func (h *AdminHandler) UserSearchPost(c *gin.Context) {
 	name := c.Request.FormValue("fullName")
 	username := c.Request.FormValue("username")
 
-	fmt.Println("name:", name)
-	fmt.Println("username:", username)
-
 	userSearch.FullName = name
 	userSearch.UserName = username
 
@@ -74,7 +70,6 @@ func (h *AdminHandler) UserDetailPost(c *gin.Context) {
 	userid, _ := strconv.Atoi(c.Request.FormValue("userid"))
 	action := c.Request.FormValue("btnSubmit")
 
-	fmt.Println("action:", action)
 	var message string
 	alert := "alert-danger"
 

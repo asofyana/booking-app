@@ -2,7 +2,6 @@ package handler
 
 import (
 	"booking-app/internal/services"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -46,7 +45,6 @@ func (s *LoginHandler) ProcessLogin(c *gin.Context) {
 }
 
 func (s *LoginHandler) ProcessLogout(c *gin.Context) {
-	fmt.Println("ProcessLogout")
 	services.InvalidateSession(c)
 	c.Redirect(http.StatusTemporaryRedirect, "/")
 	//c.HTML(http.StatusOK, "login.html", nil)
