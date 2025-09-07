@@ -15,6 +15,7 @@
           <li><a href="/user/change-password">{{ T .Context "admin_change_password" nil }}</a></li>
           {{if eq .User.Role "admin"}}
           <li><a href="/admin/user-search">{{ T .Context "admin_user_management" nil }}</a></li>
+          <li><a href="/admin/user-create">{{ T .Context "admin_create_user" nil }}</a></li>
           {{end}}
         </ul>
       </li>

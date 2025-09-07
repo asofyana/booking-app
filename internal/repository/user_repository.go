@@ -70,8 +70,8 @@ func (s *UserRepository) CreateUser(user entity.User) error {
 }
 
 func (s *UserRepository) UpdateUser(user entity.User) error {
-	_, err := s.DB.Exec("update users set username=?, password=?, full_name=?, email=?, phone_number=?, role=?, title=?, status=? where user_id=?",
-		user.UserName, user.Password, user.FullName, user.Email, user.PhoneNumber, user.Role, user.UserId)
+	_, err := s.DB.Exec("update users set username=?, full_name=?, email=?, phone_number=?, role=?, title=?, status=? where user_id=?",
+		user.UserName, user.FullName, user.Email, user.PhoneNumber, user.Role, user.Title, user.Status, user.UserId)
 	return err
 }
 
@@ -137,11 +137,11 @@ func (s *UserRepository) SearchUsers(user entity.User) ([]entity.User, error) {
 }
 
 func (s *UserRepository) GetByUserId(userid int) (entity.User, error) {
-	result := s.DB.QueryRow("select user_id, username, password, full_name, role, IFNULL(title,'') as title, status from users where user_id = ?", userid)
+	result := s.DB.QueryRow("select user_id, username, password, full_name, role, IFNULL(title,'') as title, IFNULL(email,'') as email, IFNULL(phone_number,'') as phone_number, status from users where user_id = ?", userid)
 
 	var user entity.User
 
-	err := result.Scan(&user.UserId, &user.UserName, &user.Password, &user.FullName, &user.Role, &user.Title, &user.Status)
+	err := result.Scan(&user.UserId, &user.UserName, &user.Password, &user.FullName, &user.Role, &user.Title, &user.Email, &user.PhoneNumber, &user.Status)
 	if err != nil {
 		log.Println("Error scanning user: ", err.Error())
 		return entity.User{}, err

@@ -11,12 +11,14 @@ import (
 )
 
 type AdminHandler struct {
-	userService services.UserServiceInterface
+	userService   services.UserServiceInterface
+	lookupService services.LookupServiceInterface
 }
 
-func NewAdminHandler(userService services.UserServiceInterface) *AdminHandler {
+func NewAdminHandler(userService services.UserServiceInterface, lookupService services.LookupServiceInterface) *AdminHandler {
 	return &AdminHandler{
-		userService: userService,
+		userService:   userService,
+		lookupService: lookupService,
 	}
 }
 
@@ -51,16 +53,23 @@ func (h *AdminHandler) UserSearchPost(c *gin.Context) {
 func (h *AdminHandler) UserDetail(c *gin.Context) {
 	user := services.GetUserSession(c)
 
+	roles, _ := h.lookupService.GetAllActiveLookupByType(c, "USER_ROLE")
+	status, _ := h.lookupService.GetAllActiveLookupByType(c, "USER_STATUS")
+
 	userid, _ := strconv.Atoi(c.Query("userid"))
 	userDetail, _ := h.userService.GetUserById(userid)
 
 	c.HTML(http.StatusOK, "user-detail.html", gin.H{
 		"title": "User Detail", "User": user, "UserDetail": userDetail,
+		"Roles": roles, "Status": status,
 	})
 }
 
 func (h *AdminHandler) UserDetailPost(c *gin.Context) {
 	user := services.GetUserSession(c)
+
+	roles, _ := h.lookupService.GetAllActiveLookupByType(c, "USER_ROLE")
+	status, _ := h.lookupService.GetAllActiveLookupByType(c, "USER_STATUS")
 
 	userid, _ := strconv.Atoi(c.Request.FormValue("userid"))
 	action := c.Request.FormValue("btnSubmit")
@@ -77,11 +86,41 @@ func (h *AdminHandler) UserDetailPost(c *gin.Context) {
 			message = "Success Reset Password"
 			alert = "alert-success"
 		}
+	} else if action == "Create" {
+		err := h.userService.CreateUser(c)
+		if err != nil {
+			message = "Error Create User"
+		} else {
+			message = "Success Create User"
+			alert = "alert-success"
+		}
+	} else if action == "Update" {
+		err := h.userService.UpdateUser(c)
+		if err != nil {
+			message = "Error Update User"
+		} else {
+			message = "Success Update User"
+			alert = "alert-success"
+		}
 	}
 
 	userDetail, _ := h.userService.GetUserById(userid)
 
 	c.HTML(http.StatusOK, "user-detail.html", gin.H{
 		"title": "User Detail", "User": user, "UserDetail": userDetail, "message": message, "alert": alert,
+		"Roles": roles, "Status": status,
+	})
+}
+
+func (h *AdminHandler) UserCreate(c *gin.Context) {
+	user := services.GetUserSession(c)
+
+	userDetail := entity.User{}
+	roles, _ := h.lookupService.GetAllActiveLookupByType(c, "USER_ROLE")
+	status, _ := h.lookupService.GetAllActiveLookupByType(c, "USER_STATUS")
+
+	c.HTML(http.StatusOK, "user-detail.html", gin.H{
+		"title": "User Detail", "User": user, "UserDetail": userDetail,
+		"Roles": roles, "Status": status,
 	})
 }

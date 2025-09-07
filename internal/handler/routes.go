@@ -17,6 +17,7 @@ func RegisterRouteAdmin(router *gin.Engine, handler *AdminHandler) {
 	adminRouter.POST("/user-search", handler.UserSearchPost)
 	adminRouter.GET("/user-detail", handler.UserDetail)
 	adminRouter.POST("/user-detail", handler.UserDetailPost)
+	adminRouter.GET("/user-create", handler.UserCreate)
 }
 
 func RegisterRouteBooking(router *gin.Engine, handler *BookingHandler) {

@@ -75,7 +75,7 @@ func (a *App) Start() error {
 
 	gin.SetMode(gin.DebugMode)
 	userService := services.NewUserService(userRepository)
-	adminHandler := handler.NewAdminHandler(userService)
+	adminHandler := handler.NewAdminHandler(userService, lookupService)
 	userHandler := handler.NewUserHandler(userService)
 
 	handler.InitializeRoutes(app, homeHandler)
@@ -84,7 +84,7 @@ func (a *App) Start() error {
 	handler.RegisterRouteAdmin(app, adminHandler)
 	handler.RegisterRouteUser(app, userHandler)
 
-	return app.Run(":8080")
+	return app.Run(":" + utils.GetConfig().Port)
 }
 
 func formatDate(t time.Time) string {

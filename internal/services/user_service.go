@@ -5,14 +5,15 @@ import (
 	"booking-app/internal/repository"
 	"booking-app/internal/utils"
 	"fmt"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 type UserServiceInterface interface {
 	GetAllUsers() ([]entity.User, error)
-	CreateUser(user entity.User) error
-	UpdateUser(user entity.User) error
+	CreateUser(c *gin.Context) error
+	UpdateUser(c *gin.Context) error
 	DeleteUser(userId string) error
 	UpdatePassword(c *gin.Context, oldPassword, newPassword, confirmPassword string) error
 	SearchUsers(user entity.User) ([]entity.User, error)
@@ -35,19 +36,62 @@ func (s *UserService) GetAllUsers() ([]entity.User, error) {
 	return []entity.User{}, nil
 }
 
-func (s *UserService) CreateUser(user entity.User) error {
-	// TODO: Implement user creation logic
-	return nil
-}
-
-func (s *UserService) UpdateUser(user entity.User) error {
-	// TODO: Implement user update logic
-	return nil
-}
-
 func (s *UserService) DeleteUser(userId string) error {
 	// TODO: Implement user deletion logic
 	return nil
+}
+
+func (s *UserService) CreateUser(c *gin.Context) error {
+	user := GetUserSession(c)
+
+	fullName := c.PostForm("fullName")
+	username := c.PostForm("username")
+	title := c.PostForm("title")
+	email := c.PostForm("email")
+	phoneNumber := c.PostForm("phoneNumber")
+	role := c.PostForm("role")
+	status := c.PostForm("status")
+
+	newUser := entity.User{
+		FullName:    fullName,
+		UserName:    username,
+		Title:       title,
+		Email:       email,
+		PhoneNumber: phoneNumber,
+		Role:        role,
+		Status:      status,
+		Password:    utils.GetConfig().DefaultPassword,
+		CreatedBy:   user.UserName,
+	}
+
+	return s.userRepo.CreateUser(newUser)
+}
+
+func (s *UserService) UpdateUser(c *gin.Context) error {
+	user := GetUserSession(c)
+
+	fullName := c.PostForm("fullName")
+	username := c.PostForm("username")
+	title := c.PostForm("title")
+	email := c.PostForm("email")
+	phoneNumber := c.PostForm("phoneNumber")
+	role := c.PostForm("role")
+	status := c.PostForm("status")
+	userId, _ := strconv.Atoi(c.Request.FormValue("userid"))
+
+	newUser := entity.User{
+		UserId:      userId,
+		FullName:    fullName,
+		UserName:    username,
+		Title:       title,
+		Email:       email,
+		PhoneNumber: phoneNumber,
+		Role:        role,
+		Status:      status,
+		UpdatedBy:   user.UserName,
+	}
+
+	return s.userRepo.UpdateUser(newUser)
 }
 
 func (s *UserService) UpdatePassword(c *gin.Context, oldPassword, newPassword, confirmPassword string) error {

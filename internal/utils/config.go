@@ -11,6 +11,7 @@ import (
 type Config struct {
 	DefaultPassword string `yaml:"defaultPassword"`
 	DefaultLanguage string `yaml:"defaultLanguage"`
+	Port            string `yaml:"port"`
 }
 
 var config Config

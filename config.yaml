@@ -1,2 +1,3 @@
+port: "8080"
 defaultPassword: "$2a$14$LvH7NqXjDPMzf.gJjWOI0etKFyV0xIsPohC6Z125KUUCKolh.sZ/a"
 defaultLanguage: "id-ID"

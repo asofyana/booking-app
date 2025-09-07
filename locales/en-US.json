@@ -13,6 +13,7 @@
   "booking_status": "Status",
   "admin_change_password": "Change Password",
   "admin_user_management": "User Management",
+  "admin_create_user": "Create User",
   "old_password": "Old Password",
   "new_password": "New Password",
   "confirm_password": "Confirm Password",

@@ -33,6 +33,10 @@ func (s *LoginService) ProcessLogin(c *gin.Context, username, password string) (
 		return entity.User{}, fmt.Errorf("invalid username or password")
 	}
 
+	if user.Status != "active" {
+		return entity.User{}, fmt.Errorf("invalid username or password")
+	}
+
 	if !utils.VerifyPassword(password, user.Password) {
 		return entity.User{}, fmt.Errorf("invalid username or password")
 	}
