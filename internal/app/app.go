@@ -27,7 +27,7 @@ func NewApp() *App {
 }
 
 func (a *App) Start() error {
-	dbConn := db.NewSqliteConnection("./booking.db")
+	dbConn := db.NewSqliteConnection(utils.GetConfig().DbFile)
 
 	err := dbConn.Connect()
 	if err != nil {

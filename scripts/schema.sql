@@ -53,3 +53,8 @@ create table LOOKUP (
 
 insert into lookup(lookup_type, lookup_code, lookup_text) values ('ACTIVITY', 'ACT_1', 'Activity 1');
 insert into lookup(lookup_type, lookup_code, lookup_text) values ('ACTIVITY', 'ACT_2', 'Activity 2');
+
+insert into lookup(lookup_type, lookup_code, lookup_text) values ('USER_ROLE', 'admin', 'admin');
+insert into lookup(lookup_type, lookup_code, lookup_text) values ('USER_ROLE', 'user', 'user');
+insert into lookup(lookup_type, lookup_code, lookup_text) values ('USER_STATUS', 'active', 'active');
+insert into lookup(lookup_type, lookup_code, lookup_text) values ('USER_STATUS', 'inactive', 'inactive');

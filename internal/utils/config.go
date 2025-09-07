@@ -12,6 +12,7 @@ type Config struct {
 	DefaultPassword string `yaml:"defaultPassword"`
 	DefaultLanguage string `yaml:"defaultLanguage"`
 	Port            string `yaml:"port"`
+	DbFile          string `yaml:"dbFile"`
 }
 
 var config Config
