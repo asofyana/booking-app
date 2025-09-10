@@ -13,7 +13,10 @@ var store = sessions.NewCookieStore([]byte("super-secret"))
 
 func init() {
 	store.Options.HttpOnly = true // since we are not accessing any cookies w/ JavaScript, set to true
-	store.Options.Secure = true   // requires secuire HTTPS connection
+	store.Options.Secure = false  // requires secuire HTTPS connection
+	store.Options.Path = "/"
+	store.Options.Domain = ""
+	store.Options.SameSite = http.SameSiteStrictMode
 	gob.Register(&entity.User{})
 }
 
