@@ -32,17 +32,24 @@ CREATE TABLE BOOKING (
   booking_id integer primary key,
   title text not null,
   room_id integer not null,
-  booking_description text not null,
   start_date timestamp not null,
   end_date timestamp not null,
   participant_count integer,
-  activity_code string,
+  activity_code text,
+  organizer text,
+  pic text,
+  pic_contactno text,
   status text,
   created_date timestamp default current_timestamp not null,
   created_by text,
   updated_date timestamp default current_timestamp not null,
   updated_by text
 );
+
+CREATE TABLE BOOKING_ROOM (
+  booking_id integer not null,
+  room_id integer not null
+)
 
 create table LOOKUP (
   lookup_type text not null,

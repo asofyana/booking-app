@@ -31,13 +31,6 @@
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="description">{{ T .Context "booking_desc" nil }} <span class="required">*</span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												{{.booking.Description}}
-											</div>
-										</div>
-										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="activity">{{ T .Context "booking_activity" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
@@ -45,12 +38,37 @@
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="room">{{ T .Context "booking_room_name" nil }} <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="organizer">{{ T .Context "booking_organizer" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-                        {{.booking.RoomName}}
+												{{.booking.Organizer}}
 											</div>
-                    </div>
+										</div>
+
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="pic">{{ T .Context "booking_pic" nil }} <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												{{.booking.Pic}}
+											</div>
+										</div>
+
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="pic_contactno">{{ T .Context "booking_pic_contactno" nil }} <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												{{.booking.PicContactNo}}
+											</div>
+										</div>
+
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="number-of-participant">{{ T .Context "booking_participant_count" nil }} <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												{{.booking.ParticipantCount}}
+											</div>
+										</div>
+
                     <div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align">{{ T .Context "booking_start_date" nil }}<span class="required">*</span>
 											</label>
@@ -68,12 +86,16 @@
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="number-of-participant">{{ T .Context "booking_participant_count" nil }} <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="room">{{ T .Context "booking_room_name" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												{{.booking.ParticipantCount}}
+											{{range .booking.Rooms}}
+												{{.Name}}
+											{{end}}
+                        
 											</div>
-										</div>
+                    </div>
+
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="booking-status">{{ T .Context "booking_status" nil }} <span class="required">*</span>
 											</label>
@@ -93,14 +115,10 @@
 											</div>
 										</div>
 
-
                   </form>
-
                 </div>
               </div>
             </div>
-
-
           </div>
 
 

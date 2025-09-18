@@ -31,25 +31,27 @@ type BookingServiceInterface interface {
 
 func (s *BookingService) SaveBooking(c *gin.Context) (entity.Booking, error) {
 	title := c.PostForm("title")
-	description := c.PostForm("description")
-	roomId, _ := strconv.Atoi(c.PostForm("room"))
 	startDate := c.PostForm("start-date")
 	startTime := c.PostForm("start-time")
 	endDate := c.PostForm("end-date")
 	endTime := c.PostForm("end-time")
 	participantCount, _ := strconv.Atoi(c.PostForm("number-of-participant"))
 	activityCode := c.PostForm("activity")
+	organizer := c.PostForm("organizer")
+	pic := c.PostForm("pic")
+	pic_contactno := c.PostForm("pic_contactno")
 
 	user := GetUserSession(c)
 
 	booking := entity.Booking{
 		Title:            title,
-		Description:      description,
-		RoomId:           roomId,
 		ParticipantCount: participantCount,
 		CreatedBy:        user.UserName,
 		Status:           "Pending",
 		Activity:         activityCode,
+		Organizer:        organizer,
+		Pic:              pic,
+		PicContactNo:     pic_contactno,
 	}
 
 	layoutFormat := "2006-01-02 15:04"
@@ -82,6 +84,16 @@ func (s *BookingService) SaveBooking(c *gin.Context) (entity.Booking, error) {
 	if overlapCount > 0 {
 		return booking, errors.New("date overlap with other booking")
 	}
+
+	// Get booking room
+	selectedRooms := c.PostFormArray("rooms")
+	var rooms []entity.Room
+	for _, roomId := range selectedRooms {
+		var room entity.Room
+		room.RoomId, _ = strconv.Atoi(roomId)
+		rooms = append(rooms, room)
+	}
+	booking.Rooms = rooms
 
 	err2 := s.BookingRepository.InsertBooking(booking)
 	if err2 != nil {

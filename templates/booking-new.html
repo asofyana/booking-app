@@ -30,13 +30,6 @@
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="description">{{ T .Context "booking_desc" nil }} <span class="required">*</span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="description" name="description" value="{{.booking.Description}}" required="required" class="form-control ">
-											</div>
-										</div>
-										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="activity">{{ T .Context "booking_activity" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
@@ -48,18 +41,39 @@
 												</select>
 											</div>
                     </div>
+
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="room">{{ T .Context "booking_room_name" nil }} <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="organizer">{{ T .Context "booking_organizer" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<select class="form-control" name="room" id="room">
-													<option>{{ T .Context "choose_option" nil }}</option>
-													{{range .Rooms}}
-													<option value="{{.RoomId}}" {{if eq .RoomId $.booking.RoomId}} selected {{end}}>{{.Name}}</option>
-													{{end}}
-												</select>
+												<input type="text" id="organizer" name="organizer" value="{{.booking.Organizer}}" required="required" class="form-control ">
 											</div>
-                    </div>
+										</div>
+
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="pic">{{ T .Context "booking_pic" nil }} <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="pic" name="pic" value="{{.booking.Pic}}" required="required" class="form-control ">
+											</div>
+										</div>
+
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="pic_contactno">{{ T .Context "booking_pic_contactno" nil }} <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="pic_contactno" name="pic_contactno" value="{{.booking.PicContactNo}}" required="required" class="form-control ">
+											</div>
+										</div>
+
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="number-of-participant">{{ T .Context "booking_participant_count" nil }} <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="number" id="number-of-participant" name="number-of-participant" value="{{.booking.ParticipantCount}}" required="required" class="form-control ">
+											</div>
+										</div>
+
                     <div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align">{{ T .Context "booking_start_date" nil }}<span class="required">*</span>
 											</label>
@@ -94,13 +108,18 @@
 												<input type="time" id="end-time" name="end-time" value="{{.booking.EndDate.Format "15:04"}}" required="required" class="form-control time">
 											</div>
 										</div>
+
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="number-of-participant">{{ T .Context "booking_participant_count" nil }} <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="room">{{ T .Context "booking_room_name" nil }} <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="number" id="number-of-participant" name="number-of-participant" value="{{.booking.ParticipantCount}}" required="required" class="form-control ">
+												{{range .Rooms}}
+												<input type="checkbox" name="rooms" id="rooms" value="{{.RoomId}}" {{if eq .Checked "checked"}} checked {{end}}  class="flat" /> {{.Name}} {{.Checked}}
+												<br />
+												{{end}}
 											</div>
-										</div>
+                    </div>
+
 										<div class="ln_solid"></div>
 										{{if ne .alert "alert-success"}}
 										<div class="item form-group">

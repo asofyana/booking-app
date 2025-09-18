@@ -15,7 +15,6 @@
                       <thead>
                         <tr>
                           <th>{{ T .Context "booking_title" nil }}</th>
-                          <th>{{ T .Context "booking_desc" nil }}</th>
                           <th>{{ T .Context "booking_room_name" nil }}</th>
                           <th>{{ T .Context "booking_participant_count" nil }}</th>
                           <th>{{ T .Context "booking_start_date" nil }}</th>
@@ -27,8 +26,7 @@
                         {{range .UserIncomingBooking}}
                         <tr>
                           <td><a href="/booking/view?id={{.BookingId}}">{{.Title}}</a></td>
-                          <td>{{.Description}}</td>
-                          <td>{{.RoomName}}</td>
+                          <td></td>
                           <td>{{.ParticipantCount}}</td>
                           <td>{{.StartDate | formatDate}}</td>
                           <td>{{.EndDate | formatDate}}</td>
@@ -67,7 +65,7 @@
                           {{else}}
                           <td>{{.Title}}</td>
                           {{end}}
-                          <td>{{.RoomName}}</td>
+                          <td></td>
                           <td>{{.StartDate | formatDate}}</td>
                           <td>{{.EndDate | formatDate}}</td>
                           <td>{{.Status}}</td>

@@ -42,6 +42,19 @@ func (s *BookingHandler) BookingNewPost(c *gin.Context) {
 	user := services.GetUserSession(c)
 
 	booking, err := s.BookingService.SaveBooking(c)
+
+	fmt.Println("chk------------")
+	for _, room := range rooms {
+		for _, bookingRoom := range booking.Rooms {
+			if room.RoomId == bookingRoom.RoomId {
+				fmt.Println("checked:", room.Name)
+				room.Checked = "checked"
+				break
+			}
+		}
+	}
+	fmt.Println("end chk------------")
+
 	if err != nil {
 		c.HTML(http.StatusOK, "booking-new.html", gin.H{
 			"title": "New Booking", "User": user, "Rooms": rooms, "Activities": activities, "booking": booking, "message": err.Error(), "alert": "alert-danger"})

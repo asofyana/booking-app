@@ -24,6 +24,7 @@ type Room struct {
 	Description string    `json:"room_description"`
 	Status      string    `json:"room_status"`
 	StatusText  string    `json:"status_text"`
+	Checked     string    `json:"checked"`
 	CreatedDate time.Time `json:"created_date"`
 	CreatedBy   string    `json:"created_by"`
 	UpdatedDate time.Time `json:"updated_date"`
@@ -33,9 +34,6 @@ type Room struct {
 type Booking struct {
 	BookingId        int       `json:"booking_id"`
 	Title            string    `json:"title"`
-	RoomId           int       `json:"room_id"`
-	RoomName         string    `json:"room_name"`
-	Description      string    `json:"booking_description"`
 	StartDate        time.Time `json:"start_date"`
 	EndDate          time.Time `json:"end_date"`
 	ParticipantCount int       `json:"participant_count"`
@@ -43,10 +41,14 @@ type Booking struct {
 	StatusText       string    `json:"status_text"`
 	Activity         string    `json:"activity_code"`
 	ActivityText     string    `json:"activity_text"`
+	Organizer        string    `json:"organizer"`
+	Pic              string    `json:"pic"`
+	PicContactNo     string    `json:"pic_contactno"`
 	CreatedDate      time.Time `json:"created_date"`
 	CreatedBy        string    `json:"created_by"`
 	UpdatedDate      time.Time `json:"updated_date"`
 	UpdatedBy        string    `json:"updated_by"`
+	Rooms            []Room
 }
 
 type Lookup struct {
