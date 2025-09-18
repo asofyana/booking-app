@@ -114,7 +114,7 @@
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												{{range .Rooms}}
-												<input type="checkbox" name="rooms" id="rooms" value="{{.RoomId}}" {{if eq .Checked "checked"}} checked {{end}}  class="flat" /> {{.Name}} {{.Checked}}
+												<input type="checkbox" name="rooms" id="rooms" value="{{.RoomId}}" {{.Checked}} class="flat" /> {{.Name}} 
 												<br />
 												{{end}}
 											</div>

@@ -11,7 +11,7 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <table class="table table-hover">
+                    <table class="table table-striped table-bordered">
                       <thead>
                         <tr>
                           <th>{{ T .Context "booking_title" nil }}</th>
@@ -26,7 +26,11 @@
                         {{range .UserIncomingBooking}}
                         <tr>
                           <td><a href="/booking/view?id={{.BookingId}}">{{.Title}}</a></td>
-                          <td></td>
+                          <td>
+                            {{range .Rooms}}
+                              {{.Name}} <br>
+                            {{end}}
+                          </td>
                           <td>{{.ParticipantCount}}</td>
                           <td>{{.StartDate | formatDate}}</td>
                           <td>{{.EndDate | formatDate}}</td>
@@ -47,7 +51,7 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <table class="table table-hover">
+                    <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                       <thead>
                         <tr>
                           <th>{{ T .Context "booking_title" nil }}</th>
@@ -65,7 +69,11 @@
                           {{else}}
                           <td>{{.Title}}</td>
                           {{end}}
-                          <td></td>
+                          <td>
+                            {{range .Rooms}}
+                              {{.Name}} <br>
+                            {{end}}
+                          </td>
                           <td>{{.StartDate | formatDate}}</td>
                           <td>{{.EndDate | formatDate}}</td>
                           <td>{{.Status}}</td>

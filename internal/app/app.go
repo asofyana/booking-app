@@ -6,21 +6,14 @@ import (
 	"booking-app/internal/repository"
 	"booking-app/internal/services"
 	"booking-app/internal/utils"
-	"encoding/json"
-	"fmt"
 	"log"
 	"text/template"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nicksnyder/go-i18n/v2/i18n"
-	"golang.org/x/text/language"
 )
 
 type App struct{}
-
-// Global bundle and localizer getter
-var bundle *i18n.Bundle
 
 func NewApp() *App {
 	return &App{}
@@ -52,15 +45,7 @@ func (a *App) Start() error {
 
 	app := gin.Default()
 
-	// Initialize i18n bundle
-	bundle = i18n.NewBundle(language.English)
-	bundle.RegisterUnmarshalFunc("json", i18n.UnmarshalFunc(func(data []byte, v interface{}) error {
-		return json.Unmarshal(data, v)
-	}))
-
-	// Load translations
-	bundle.MustLoadMessageFile("locales/en-US.json")
-	bundle.MustLoadMessageFile("locales/id-ID.json")
+	utils.InitTranslation()
 
 	app.SetFuncMap(template.FuncMap{
 		"formatDate": formatDate,
@@ -93,16 +78,5 @@ func formatDate(t time.Time) string {
 
 // translate function used in templates
 func translate(c *gin.Context, messageID string, data map[string]interface{}) string {
-	lang := utils.GetConfig().DefaultLanguage
-	localizer := i18n.NewLocalizer(bundle, lang)
-
-	msg, err := localizer.Localize(&i18n.LocalizeConfig{
-		MessageID:    messageID,
-		TemplateData: data,
-	})
-	if err != nil {
-		fmt.Println(err)
-		return messageID // fallback
-	}
-	return msg
+	return utils.Translate(messageID, data)
 }

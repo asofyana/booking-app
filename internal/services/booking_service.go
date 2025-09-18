@@ -3,6 +3,7 @@ package services
 import (
 	"booking-app/internal/entity"
 	"booking-app/internal/repository"
+	"booking-app/internal/utils"
 	"errors"
 	"log"
 	"strconv"
@@ -82,7 +83,7 @@ func (s *BookingService) SaveBooking(c *gin.Context) (entity.Booking, error) {
 
 	overlapCount := s.BookingRepository.GetOverlapBookingCount(booking)
 	if overlapCount > 0 {
-		return booking, errors.New("date overlap with other booking")
+		return booking, errors.New(utils.Translate("booking_err_overlap", nil))
 	}
 
 	// Get booking room
