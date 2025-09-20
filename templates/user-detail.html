@@ -22,7 +22,7 @@
 
                   <form method="POST" action="/admin/user-detail" id="SearchUserForm" name="SearchUserForm" data-parsley-validate class="form-horizontal form-label-left">
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="full_name">Name 
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="full_name">{{ T .Context "user_fullname" nil }} 
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<input type="text" id="fullName" name="fullName" class="form-control" value="{{.UserDetail.FullName}}">
@@ -37,7 +37,7 @@
 										</div>
 
                     <div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="title">{{ T .Context "user_title" nil }}
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<input type="text" id="title" name="title" class="form-control" value="{{.UserDetail.Title}}">
@@ -54,7 +54,7 @@
 										</div>
 
                     <div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="phone">Phone Number
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="phone">{{ T .Context "user_phone" nil }}
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<input type="text" id="phoneNumber" name="phoneNumber" class="form-control" value="{{.UserDetail.PhoneNumber}}">
