@@ -32,7 +32,6 @@ insert into room(room_name, room_description, room_status) values ('Room 2', 'Ro
 CREATE TABLE BOOKING (
   booking_id integer primary key,
   title text not null,
-  room_id integer not null,
   start_date timestamp not null,
   end_date timestamp not null,
   participant_count integer,
