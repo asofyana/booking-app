@@ -28,6 +28,8 @@ type BookingServiceInterface interface {
 	GetAllIncomingBooking(c *gin.Context) ([]entity.Booking, error)
 	GetBookingById(c *gin.Context, bookingId int) (entity.Booking, error)
 	UpdateBookingStatus(c *gin.Context, bookingId int, status string) error
+	SearchBooking(entity.Booking) ([]entity.Booking, error)
+	GetAllIncomingBookingDashboard() ([]entity.Booking, error)
 }
 
 func (s *BookingService) SaveBooking(c *gin.Context) (entity.Booking, error) {
@@ -81,11 +83,6 @@ func (s *BookingService) SaveBooking(c *gin.Context) (entity.Booking, error) {
 		return booking, errors.New("invalid date")
 	}
 
-	overlapCount := s.BookingRepository.GetOverlapBookingCount(booking)
-	if overlapCount > 0 {
-		return booking, errors.New(utils.Translate("booking_err_overlap", nil))
-	}
-
 	// Get booking room
 	selectedRooms := c.PostFormArray("rooms")
 	var rooms []entity.Room
@@ -95,6 +92,14 @@ func (s *BookingService) SaveBooking(c *gin.Context) (entity.Booking, error) {
 		rooms = append(rooms, room)
 	}
 	booking.Rooms = rooms
+
+	overlapCount := s.BookingRepository.GetOverlapBookingCount(booking)
+	if overlapCount == -1 {
+		return booking, errors.New("Error")
+	}
+	if overlapCount > 0 {
+		return booking, errors.New(utils.Translate("booking_err_overlap", nil))
+	}
 
 	err2 := s.BookingRepository.InsertBooking(booking)
 	if err2 != nil {
@@ -120,4 +125,12 @@ func (s *BookingService) GetBookingById(c *gin.Context, bookingId int) (entity.B
 
 func (s *BookingService) UpdateBookingStatus(c *gin.Context, bookingId int, status string) error {
 	return s.BookingRepository.UpdateBookingStatus(bookingId, status)
+}
+
+func (s *BookingService) SearchBooking(booking entity.Booking) ([]entity.Booking, error) {
+	return s.BookingRepository.SearchBooking(booking)
+}
+
+func (s *BookingService) GetAllIncomingBookingDashboard() ([]entity.Booking, error) {
+	return s.BookingRepository.GetAllIncomingBookingDashboard()
 }

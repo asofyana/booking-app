@@ -3,21 +3,25 @@ package handler
 import (
 	"booking-app/internal/entity"
 	"booking-app/internal/services"
+	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 type AdminHandler struct {
-	userService   services.UserServiceInterface
-	lookupService services.LookupServiceInterface
+	userService    services.UserServiceInterface
+	lookupService  services.LookupServiceInterface
+	bookingService services.BookingServiceInterface
 }
 
-func NewAdminHandler(userService services.UserServiceInterface, lookupService services.LookupServiceInterface) *AdminHandler {
+func NewAdminHandler(userService services.UserServiceInterface, lookupService services.LookupServiceInterface, bookingService services.BookingServiceInterface) *AdminHandler {
 	return &AdminHandler{
-		userService:   userService,
-		lookupService: lookupService,
+		userService:    userService,
+		lookupService:  lookupService,
+		bookingService: bookingService,
 	}
 }
 
@@ -118,4 +122,42 @@ func (h *AdminHandler) UserCreate(c *gin.Context) {
 		"title": "User Detail", "User": user, "UserDetail": userDetail,
 		"Roles": roles, "Status": status,
 	})
+}
+
+func (s *AdminHandler) BookingDownload(c *gin.Context) {
+
+	user := services.GetUserSession(c)
+
+	c.HTML(http.StatusOK, "booking-download.html", gin.H{
+		"title": "Download Booking", "User": user})
+
+}
+
+func (s *AdminHandler) BookingDownloadPost(c *gin.Context) {
+
+	user := services.GetUserSession(c)
+
+	layoutFormat := "2006-01-02 15:04"
+
+	startDate := c.PostForm("start-date")
+	startDateTime, err := time.Parse(layoutFormat, startDate+" 00:00")
+	if err != nil {
+		log.Println("Error Parsing startDate: ", err.Error())
+	}
+
+	endDate := c.PostForm("end-date")
+	endDateTime, err := time.Parse(layoutFormat, endDate+" 00:00")
+	if err != nil {
+		log.Println("Error Parsing endDate: ", err.Error())
+	}
+
+	booking := entity.Booking{
+		StartDate: startDateTime,
+		EndDate:   endDateTime,
+	}
+
+	bookings, _ := s.bookingService.SearchBooking(booking)
+	c.HTML(http.StatusOK, "booking-download.html", gin.H{
+		"title": "Download Booking", "User": user, "bookings": bookings, "booking": booking, "submitted": true})
+
 }

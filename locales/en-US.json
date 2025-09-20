@@ -21,5 +21,6 @@
   "new_password": "New Password",
   "confirm_password": "Confirm Password",
   "choose_option": "Choose Option",
-  "select_date": "Select Date"
+  "select_date": "Select Date",
+  "admin_booking_download": "Download Booking"
 }

@@ -8,12 +8,14 @@ import (
 )
 
 type LoginHandler struct {
-	LoginService services.LoginServiceInterface
+	LoginService   services.LoginServiceInterface
+	BookingService services.BookingServiceInterface
 }
 
-func NewLoginHandler(loginService services.LoginServiceInterface) *LoginHandler {
+func NewLoginHandler(loginService services.LoginServiceInterface, bookingService services.BookingServiceInterface) *LoginHandler {
 	return &LoginHandler{
-		LoginService: loginService,
+		LoginService:   loginService,
+		BookingService: bookingService,
 	}
 }
 
@@ -35,8 +37,11 @@ func (s *LoginHandler) ProcessLogin(c *gin.Context) {
 	user, err := s.LoginService.ProcessLogin(c, username, password)
 
 	if err == nil {
-		c.HTML(http.StatusOK, "home.html", gin.H{"User": user})
-		//c.Redirect(http.StatusTemporaryRedirect, "/booking/home")
+		bookings, _ := s.BookingService.GetAllIncomingBookingDashboard()
+
+		c.HTML(http.StatusOK, "home.html", gin.H{
+			"title": "Home Page", "User": user, "bookings": bookings, "LastIndex": len(bookings) - 1})
+
 		return
 	}
 

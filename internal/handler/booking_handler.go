@@ -43,18 +43,15 @@ func (s *BookingHandler) BookingNewPost(c *gin.Context) {
 
 	booking, err := s.BookingService.SaveBooking(c)
 
-	fmt.Println("chk------------")
 	for i, room := range rooms {
 		for _, bookingRoom := range booking.Rooms {
 			if room.RoomId == bookingRoom.RoomId {
-				fmt.Println("checked:", room.Name)
 				room.Checked = "checked"
 				rooms[i] = room
 				break
 			}
 		}
 	}
-	fmt.Println("end chk------------")
 
 	if err != nil {
 		c.HTML(http.StatusOK, "booking-new.html", gin.H{

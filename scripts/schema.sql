@@ -19,6 +19,7 @@ CREATE TABLE ROOM (
   room_name text not null,
   room_description text not null,
   room_status text not null,
+  css_class text,
   created_date timestamp default current_timestamp not null,
   created_by text,
   updated_date timestamp default current_timestamp not null,

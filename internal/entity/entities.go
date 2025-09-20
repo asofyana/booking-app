@@ -25,6 +25,7 @@ type Room struct {
 	Status      string    `json:"room_status"`
 	StatusText  string    `json:"status_text"`
 	Checked     string    `json:"checked"`
+	CssClass    string    `json:"css_class"`
 	CreatedDate time.Time `json:"created_date"`
 	CreatedBy   string    `json:"created_by"`
 	UpdatedDate time.Time `json:"updated_date"`
@@ -44,6 +45,8 @@ type Booking struct {
 	Organizer        string    `json:"organizer"`
 	Pic              string    `json:"pic"`
 	PicContactNo     string    `json:"pic_contactno"`
+	RoomName         string    `json:"room_name"`
+	CssClass         string    `json:"css_class"`
 	CreatedDate      time.Time `json:"created_date"`
 	CreatedBy        string    `json:"created_by"`
 	UpdatedDate      time.Time `json:"updated_date"`

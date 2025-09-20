@@ -8,6 +8,9 @@
         <ul class="nav child_menu">
           <li><a href="/booking/home">{{ T .Context "booking_home" nil }}</a></li>
           <li><a href="/booking/create">{{ T .Context "booking_new" nil }}</a></li>
+          {{if eq .User.Role "admin"}}
+          <li><a href="/admin/booking-download">{{ T .Context "admin_booking_download" nil }}</a></li>
+          {{end}}
         </ul>
       </li>
       <li><a><i class="fa fa-edit"></i> Admin <span class="fa fa-chevron-down"></span></a>

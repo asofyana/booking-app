@@ -4,7 +4,9 @@ import (
 	"booking-app/internal/entity"
 	"database/sql"
 	"errors"
+	"fmt"
 	"log"
+	"strings"
 )
 
 type BookingRepository struct {
@@ -24,6 +26,8 @@ type BookingRepositoryInterface interface {
 	GetIncomingBookingByUsername(username string) ([]entity.Booking, error)
 	GetBookingById(bookingId int) (entity.Booking, error)
 	UpdateBookingStatus(bookingId int, status string) error
+	SearchBooking(booking entity.Booking) ([]entity.Booking, error)
+	GetAllIncomingBookingDashboard() ([]entity.Booking, error)
 }
 
 func (s *BookingRepository) GetAllIncomingBooking() ([]entity.Booking, error) {
@@ -79,8 +83,10 @@ func (s *BookingRepository) GetOverlapBookingCount(booking entity.Booking) int {
 	for _, room := range booking.Rooms {
 		var count int
 		err := s.DB.QueryRow("select count(1) from booking a, booking_room b where a.booking_id = b.booking_id and b.room_id = ? and start_date < ? and end_date > ?", room.RoomId, booking.EndDate, booking.StartDate).Scan(&count)
+
 		if err != nil {
-			return 0
+			fmt.Println(err)
+			return -1
 		}
 		total += count
 	}
@@ -173,4 +179,78 @@ func getRoomByBookingId(DB *sql.DB, bookingId int) ([]entity.Room, error) {
 	}
 
 	return rooms, nil
+}
+
+func (s *BookingRepository) SearchBooking(booking entity.Booking) ([]entity.Booking, error) {
+	sql := "select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno " +
+		"from booking a, lookup c where a.activity_code = c.lookup_code and c.lookup_type='ACTIVITY'"
+	conditions := []string{}
+	params := []interface{}{}
+
+	if !booking.StartDate.IsZero() {
+		conditions = append(conditions, "a.start_date >= ?")
+		params = append(params, booking.StartDate.Format("2006-01-02")+" 00:00:00")
+	}
+
+	if !booking.EndDate.IsZero() {
+		conditions = append(conditions, "a.start_date < ?")
+		params = append(params, booking.EndDate.AddDate(0, 0, 1).Format("2006-01-02")+" 00:00:00")
+	}
+
+	if len(conditions) > 0 {
+		sql += " AND " + strings.Join(conditions, " AND ")
+	}
+
+	result, err := s.DB.Query(sql, params...)
+
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	defer result.Close()
+
+	var bookings []entity.Booking
+
+	for result.Next() {
+		var booking entity.Booking
+		err := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo)
+		if err != nil {
+			log.Println("Error scanning booking: ", err.Error())
+			return nil, err
+		}
+		rooms, _ := getRoomByBookingId(s.DB, booking.BookingId)
+		booking.Rooms = rooms
+		bookings = append(bookings, booking)
+	}
+
+	return bookings, nil
+}
+
+func (s *BookingRepository) GetAllIncomingBookingDashboard() ([]entity.Booking, error) {
+	sql := "select a.title, a.start_date, a.end_date, c.room_name, c.css_class " +
+		"from booking a inner join booking_room b on a.booking_id = b.booking_id " +
+		"inner join room c on b.room_id = c.room_id where a.start_date > current_timestamp"
+
+	result, err := s.DB.Query(sql)
+
+	if err != nil {
+		return nil, err
+	}
+	defer result.Close()
+
+	var bookings []entity.Booking
+
+	for result.Next() {
+		var booking entity.Booking
+		err := result.Scan(&booking.Title, &booking.StartDate, &booking.EndDate, &booking.RoomName, &booking.CssClass)
+		if err != nil {
+			log.Println("Error scanning booking: ", err.Error())
+			return nil, err
+		}
+		rooms, _ := getRoomByBookingId(s.DB, booking.BookingId)
+		booking.Rooms = rooms
+		bookings = append(bookings, booking)
+	}
+
+	return bookings, nil
 }

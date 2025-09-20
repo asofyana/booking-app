@@ -13,7 +13,7 @@
   "booking_organizer":"Penyelenggara Kegiatan",
   "booking_pic":"Nama PJ Kegiatan",
   "booking_pic_contactno":"No HP PJ Kegiatan",
-  "booking_err_overlap":"Booking sudah dilakukan di ruangan ini. Silahkan pilih ruangan atau waktu yang lain",
+  "booking_err_overlap":"Ruangan ini sudah dipesan. Silahkan pilih ruangan atau waktu yang lain",
   "admin_change_password": "Ubah Password",
   "admin_user_management": "Pengaturan Pengguna",
   "admin_create_user": "Tambah Pengguna Baru",
@@ -21,5 +21,6 @@
   "new_password": "Password Baru",
   "confirm_password": "Konfirmasi Password Baru",
   "choose_option": "Pilihan",
-  "select_date": "Pilih Tanggal"
+  "select_date": "Pilih Tanggal",
+  "admin_booking_download": "Download Booking"
 }

@@ -32,24 +32,24 @@ func (a *App) Start() error {
 	userRepository := repository.NewUserRepository(dbConn.DB)
 	loginService := services.NewLoginService(userRepository)
 
-	loginHandler := handler.NewLoginHandler(loginService)
-
 	roomRepository := repository.NewRoomRepository(dbConn.DB)
 	bookingRepository := repository.NewBookingRepository(dbConn.DB)
 	lookupRepository := repository.NewLookupRepository(dbConn.DB)
 	roomService := services.NewRoomService(roomRepository)
 	bookingService := services.NewBookingService(bookingRepository)
 	lookupService := services.NewLookupService(lookupRepository)
-	homeHandler := handler.NewHomeHandler()
+	homeHandler := handler.NewHomeHandler(bookingService)
 	bookingHandler := handler.NewBookingHandler(roomService, bookingService, lookupService)
+	loginHandler := handler.NewLoginHandler(loginService, bookingService)
 
 	app := gin.Default()
 
 	utils.InitTranslation()
 
 	app.SetFuncMap(template.FuncMap{
-		"formatDate": formatDate,
-		"T":          translate,
+		"formatDate":          formatDate,
+		"T":                   translate,
+		"formatDateDashboard": formatDateDashboard,
 	})
 
 	// Process the templates at the start so that they don't have to be loaded
@@ -60,7 +60,7 @@ func (a *App) Start() error {
 
 	//gin.SetMode(gin.DebugMode)
 	userService := services.NewUserService(userRepository)
-	adminHandler := handler.NewAdminHandler(userService, lookupService)
+	adminHandler := handler.NewAdminHandler(userService, lookupService, bookingService)
 	userHandler := handler.NewUserHandler(userService)
 
 	handler.InitializeRoutes(app, homeHandler)
@@ -74,6 +74,10 @@ func (a *App) Start() error {
 
 func formatDate(t time.Time) string {
 	return t.Format("2006-01-02 15:04")
+}
+
+func formatDateDashboard(t time.Time) string {
+	return t.Format("2006-01-02T15:04") //2025-09-15T09:00:00
 }
 
 // translate function used in templates

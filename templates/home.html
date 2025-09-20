@@ -5,8 +5,50 @@
         <div class="right_col" role="main">
 
 
-            Dashboard
-    
+            <div class="container">
+                <h4 class="mb-3">Booking Calendar</h4>
+                <div id="calendar"></div>
+            </div>
+
+            <!-- FullCalendar + Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    themeSystem: 'bootstrap5',   // Bootstrap 5 theme
+                    initialView: 'timeGridWeek', // Outlook-style week view
+                    headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    //slotMinTime: "08:00:00", // start at 8 AM
+                    //slotMaxTime: "24:00:00", // end at 00 AM
+                    allDaySlot: false,
+                    editable: false,  // view-only mode
+                    selectable: false,
+                    locale: 'id',
+                    events: [
+                    {{range .bookings}}
+                    {
+                        title: '{{.RoomName}}: {{.Title}}',
+                        start: '{{.StartDate | formatDateDashboard}}',
+                        end: '{{.EndDate | formatDateDashboard}}',
+                        className: 'bg-primary text-white rounded'
+                    },
+                    {{end}}
+                    ]
+                });
+
+                calendar.render();
+                });
+            </script>
+            
+
+
     
         </div>
         <!-- /page content -->
