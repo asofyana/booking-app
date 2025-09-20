@@ -2,6 +2,7 @@ package handler
 
 import (
 	"booking-app/internal/services"
+	"booking-app/internal/utils"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -60,7 +61,7 @@ func (s *BookingHandler) BookingNewPost(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "booking-new.html", gin.H{
-		"title": "New Booking", "User": user, "Rooms": rooms, "Activities": activities, "booking": booking, "message": "Success", "alert": "alert-success"})
+		"title": "New Booking", "User": user, "Rooms": rooms, "Activities": activities, "booking": booking, "message": utils.Translate("booking_success", nil), "alert": "alert-success"})
 
 }
 

@@ -2,6 +2,8 @@ package handler
 
 import (
 	"booking-app/internal/services"
+	"booking-app/internal/utils"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -37,11 +39,12 @@ func (s *UserHandler) ProcessChangePassword(c *gin.Context) {
 
 	err := s.UserService.UpdatePassword(c, oldPassword, newPassword, confirmPassword)
 
-	message := "Success"
+	message := utils.Translate("change_password_success", nil)
 	alert := "alert-success"
 	if err != nil {
+		fmt.Println(err)
 		alert = "alert-danger"
-		message = err.Error()
+		message = utils.Translate("change_password_failed", nil)
 	}
 
 	c.HTML(http.StatusOK, "change-password.html", gin.H{

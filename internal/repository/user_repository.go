@@ -88,28 +88,28 @@ func (s *UserRepository) DeleteUser(userId string) error {
 func (s *UserRepository) SearchUsers(user entity.User) ([]entity.User, error) {
 	sql := "select user_id, username, password, full_name, IFNULL(email,'') as email, IFNULL(phone_number,'') as phone_number, role, IFNULL(title,'') as title, status from users"
 	conditions := []string{}
-	params := []interface{}{}
 
 	if user.FullName != "" {
-		conditions = append(conditions, "lower(full_name) like '%?%'")
-		params = append(params, strings.ToLower(user.FullName))
+		conditions = append(conditions, "lower(full_name) like '%"+strings.ToLower(user.FullName)+"%'")
 	}
 
 	if user.UserName != "" {
-		conditions = append(conditions, "lower(username) like '%?%'")
-		params = append(params, strings.ToLower(user.UserName))
+		conditions = append(conditions, "lower(username) like '%"+strings.ToLower(user.UserName)+"%'")
 	}
 
 	if user.Status != "" {
-		conditions = append(conditions, "status = ?")
-		params = append(params, strings.ToLower(user.UserName))
+		conditions = append(conditions, "status = '"+user.Status+"'")
 	}
 
 	if len(conditions) > 0 {
 		sql += " WHERE " + strings.Join(conditions, " AND ")
 	}
 
-	rows, err := s.DB.Query(sql, params...)
+	rows, err := s.DB.Query(sql)
+
+	fmt.Println("-------------")
+	fmt.Println(sql)
+	fmt.Println("-------------")
 
 	if err != nil {
 		fmt.Println(err)
