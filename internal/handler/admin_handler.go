@@ -46,7 +46,7 @@ func (h *AdminHandler) UserSearchPost(c *gin.Context) {
 
 	userSearchList, _ := h.userService.SearchUsers(userSearch)
 	c.HTML(http.StatusOK, "user-search.html", gin.H{
-		"title": "User Search", "User": user, "UserSearchList": userSearchList,
+		"title": "User Search", "User": user, "UserSearchList": userSearchList, "submitted": true,
 	})
 }
 
