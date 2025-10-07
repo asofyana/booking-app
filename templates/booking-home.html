@@ -51,7 +51,7 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+                    <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                       <thead>
                         <tr>
                           <th>{{ T .Context "booking_title" nil }}</th>
@@ -93,3 +93,16 @@
     
 <!--Embed the footer.html template at this location-->
 {{ template "footer.html" .}}
+
+<script>
+
+  $(document).ready(function() {
+
+    if ($.fn.DataTable.isDataTable('#datatable-buttons')) {
+        var table = $('#datatable-buttons').DataTable();
+        table.order([2, 'asc']).draw();
+    } 
+
+  } );
+
+</script>

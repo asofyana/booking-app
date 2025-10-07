@@ -32,7 +32,7 @@ type BookingRepositoryInterface interface {
 
 func (s *BookingRepository) GetAllIncomingBooking() ([]entity.Booking, error) {
 	result, err := s.DB.Query("select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno " +
-		"from booking a, lookup c where a.activity_code = c.lookup_code and c.lookup_type='ACTIVITY' and a.start_date > current_timestamp order by a.end_date")
+		"from booking a, lookup c where a.activity_code = c.lookup_code and c.lookup_type='ACTIVITY' and a.start_date > current_timestamp order by a.start_date")
 
 	if err != nil {
 		return nil, err
@@ -96,7 +96,7 @@ func (s *BookingRepository) GetOverlapBookingCount(booking entity.Booking) int {
 func (s *BookingRepository) GetIncomingBookingByUsername(username string) ([]entity.Booking, error) {
 	result, err := s.DB.Query("select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno "+
 		"from booking a, lookup c where a.activity_code = c.lookup_code and c.lookup_type='ACTIVITY' "+
-		"and a.created_by = ? and a.start_date > current_timestamp order by a.end_date", username)
+		"and a.created_by = ? and a.start_date > current_timestamp order by a.start_date", username)
 
 	if err != nil {
 		return nil, err
@@ -229,7 +229,8 @@ func (s *BookingRepository) SearchBooking(booking entity.Booking) ([]entity.Book
 func (s *BookingRepository) GetAllIncomingBookingDashboard() ([]entity.Booking, error) {
 	sql := "select a.title, a.start_date, a.end_date, c.room_name, c.css_class " +
 		"from booking a inner join booking_room b on a.booking_id = b.booking_id " +
-		"inner join room c on b.room_id = c.room_id where a.start_date > current_timestamp"
+		"inner join room c on b.room_id = c.room_id where a.start_date > current_timestamp " +
+		"and a.status in ('Approved', 'Pending') order by a.start_date"
 
 	result, err := s.DB.Query(sql)
 
