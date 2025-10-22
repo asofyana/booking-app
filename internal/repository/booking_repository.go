@@ -31,7 +31,7 @@ type BookingRepositoryInterface interface {
 }
 
 func (s *BookingRepository) GetAllIncomingBooking() ([]entity.Booking, error) {
-	result, err := s.DB.Query("select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno " +
+	result, err := s.DB.Query("select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno, a.created_by " +
 		"from booking a, lookup c where a.activity_code = c.lookup_code and c.lookup_type='ACTIVITY' and a.start_date > current_timestamp order by a.start_date")
 
 	if err != nil {
@@ -43,7 +43,7 @@ func (s *BookingRepository) GetAllIncomingBooking() ([]entity.Booking, error) {
 
 	for result.Next() {
 		var booking entity.Booking
-		err := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo)
+		err := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo, &booking.CreatedBy)
 		if err != nil {
 			log.Println("Error scanning booking: ", err.Error())
 			return nil, err

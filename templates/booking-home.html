@@ -58,6 +58,9 @@
                           <th>{{ T .Context "booking_room_name" nil }}</th>
                           <th>{{ T .Context "booking_start_date" nil }}</th>
                           <th>{{ T .Context "booking_end_date" nil }}</th>
+                          <th>{{ T .Context "booking_pic" nil }}</th>
+                          <th>{{ T .Context "booking_pic_contactno" nil }}</th>
+                          <th>{{ T .Context "user_username" nil }}</th>
                           <th>{{ T .Context "booking_status" nil }}</th>
                         </tr>
                       </thead>
@@ -76,6 +79,9 @@
                           </td>
                           <td>{{.StartDate | formatDate}}</td>
                           <td>{{.EndDate | formatDate}}</td>
+                          <td>{{.Pic}}</td>
+                          <td>{{.PicContactNo}}</td>
+                          <td>{{.CreatedBy}}</td>
                           <td>{{.Status}}</td>
                         </tr>
                         {{end}}

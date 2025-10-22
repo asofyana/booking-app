@@ -19,6 +19,7 @@
   "admin_change_password": "Change Password",
   "admin_user_management": "User Management",
   "admin_create_user": "Create User",
+  "user_username": "Username",
   "user_fullname": "Name",
   "user_title": "Title",
   "user_phone": "Phone Number",
