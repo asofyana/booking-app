@@ -16,6 +16,7 @@
   "booking_err_overlap":"date overlap with other booking",
   "booking_download":"Download Booking",
   "booking_success":"Success creating new booking",
+  "booking_reject_reason": "Reject Reason",
   "admin_change_password": "Change Password",
   "admin_user_management": "User Management",
   "admin_create_user": "Create User",

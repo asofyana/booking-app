@@ -3,6 +3,7 @@ package handler
 import (
 	"booking-app/internal/entity"
 	"booking-app/internal/services"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -134,6 +135,8 @@ func (s *AdminHandler) BookingDownload(c *gin.Context) {
 }
 
 func (s *AdminHandler) BookingDownloadPost(c *gin.Context) {
+
+	fmt.Println("BookingDownloadPost called")
 
 	user := services.GetUserSession(c)
 

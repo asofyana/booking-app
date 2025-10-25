@@ -28,10 +28,11 @@ type BookingRepositoryInterface interface {
 	UpdateBookingStatus(bookingId int, status string) error
 	SearchBooking(booking entity.Booking) ([]entity.Booking, error)
 	GetAllIncomingBookingDashboard() ([]entity.Booking, error)
+	RejectBooking(bookingId int, rejectReason string) error
 }
 
 func (s *BookingRepository) GetAllIncomingBooking() ([]entity.Booking, error) {
-	result, err := s.DB.Query("select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno, a.created_by " +
+	result, err := s.DB.Query("select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno, IFNULL(a.reject_reason,'') as reject_reason, a.created_by " +
 		"from booking a, lookup c where a.activity_code = c.lookup_code and c.lookup_type='ACTIVITY' and a.start_date > current_timestamp order by a.start_date")
 
 	if err != nil {
@@ -43,7 +44,7 @@ func (s *BookingRepository) GetAllIncomingBooking() ([]entity.Booking, error) {
 
 	for result.Next() {
 		var booking entity.Booking
-		err := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo, &booking.CreatedBy)
+		err := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo, &booking.RejectReason, &booking.CreatedBy)
 		if err != nil {
 			log.Println("Error scanning booking: ", err.Error())
 			return nil, err
@@ -94,7 +95,7 @@ func (s *BookingRepository) GetOverlapBookingCount(booking entity.Booking) int {
 }
 
 func (s *BookingRepository) GetIncomingBookingByUsername(username string) ([]entity.Booking, error) {
-	result, err := s.DB.Query("select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno "+
+	result, err := s.DB.Query("select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno, IFNULL(a.reject_reason,'') as reject_reason "+
 		"from booking a, lookup c where a.activity_code = c.lookup_code and c.lookup_type='ACTIVITY' "+
 		"and a.created_by = ? and a.start_date > current_timestamp order by a.start_date", username)
 
@@ -107,7 +108,7 @@ func (s *BookingRepository) GetIncomingBookingByUsername(username string) ([]ent
 
 	for result.Next() {
 		var booking entity.Booking
-		err := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo)
+		err := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo, &booking.RejectReason)
 		if err != nil {
 			log.Println("Error scanning booking: ", err.Error())
 			return nil, err
@@ -121,7 +122,7 @@ func (s *BookingRepository) GetIncomingBookingByUsername(username string) ([]ent
 }
 
 func (s *BookingRepository) GetBookingById(bookingId int) (entity.Booking, error) {
-	result, err := s.DB.Query("select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno "+
+	result, err := s.DB.Query("select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno, IFNULL(a.reject_reason,'') as reject_reason "+
 		"from booking a, lookup c where a.booking_id = ? and a.activity_code = c.lookup_code and c.lookup_type='ACTIVITY'", bookingId)
 
 	if err != nil {
@@ -133,7 +134,7 @@ func (s *BookingRepository) GetBookingById(bookingId int) (entity.Booking, error
 	var booking entity.Booking
 
 	if result.Next() {
-		err2 := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo)
+		err2 := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo, &booking.RejectReason)
 		if err2 != nil {
 			log.Println("Error scanning booking: ", err2.Error())
 			return entity.Booking{}, err2
@@ -182,7 +183,7 @@ func getRoomByBookingId(DB *sql.DB, bookingId int) ([]entity.Room, error) {
 }
 
 func (s *BookingRepository) SearchBooking(booking entity.Booking) ([]entity.Booking, error) {
-	sql := "select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno " +
+	sql := "select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno, IFNULL(a.reject_reason,'') as reject_reason " +
 		"from booking a, lookup c where a.activity_code = c.lookup_code and c.lookup_type='ACTIVITY'"
 	conditions := []string{}
 	params := []interface{}{}
@@ -213,7 +214,7 @@ func (s *BookingRepository) SearchBooking(booking entity.Booking) ([]entity.Book
 
 	for result.Next() {
 		var booking entity.Booking
-		err := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo)
+		err := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo, &booking.RejectReason)
 		if err != nil {
 			log.Println("Error scanning booking: ", err.Error())
 			return nil, err
@@ -254,4 +255,17 @@ func (s *BookingRepository) GetAllIncomingBookingDashboard() ([]entity.Booking, 
 	}
 
 	return bookings, nil
+}
+
+func (s *BookingRepository) RejectBooking(bookingId int, rejectReason string) error {
+	_, err := s.DB.Exec("UPDATE booking set status = 'Rejected', reject_reason = ? where booking_id = ?",
+		rejectReason, bookingId)
+
+	if err != nil {
+		log.Println("Error reject booking: ", err.Error())
+		return err
+	}
+
+	return nil
+
 }

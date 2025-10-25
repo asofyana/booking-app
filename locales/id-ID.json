@@ -16,6 +16,7 @@
   "booking_err_overlap":"Ruangan ini sudah dipesan. Silahkan pilih ruangan atau waktu yang lain",
   "booking_download":"Download Booking",
   "booking_success":"Booking Berhasil!",
+  "booking_reject_reason":"Alasan Penolakan",
   "admin_change_password": "Ubah Password",
   "admin_user_management": "Pengaturan Pengguna",
   "admin_create_user": "Tambah Pengguna Baru",

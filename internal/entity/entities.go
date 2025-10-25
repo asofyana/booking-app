@@ -46,6 +46,7 @@ type Booking struct {
 	Pic              string    `json:"pic"`
 	PicContactNo     string    `json:"pic_contactno"`
 	RoomName         string    `json:"room_name"`
+	RejectReason     string    `json:"reject_reason"`
 	CssClass         string    `json:"css_class"`
 	CreatedDate      time.Time `json:"created_date"`
 	CreatedBy        string    `json:"created_by"`

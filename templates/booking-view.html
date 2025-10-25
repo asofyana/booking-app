@@ -103,6 +103,13 @@
 												{{.booking.Status}}
 											</div>
 										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="booking-status">{{ T .Context "booking_reject_reason" nil }} 
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												{{.booking.RejectReason}}
+											</div>
+										</div>
 										<div class="ln_solid"></div>
 										<div class="item form-group">
 											<div class="col-md-6 col-sm-6 offset-md-3">

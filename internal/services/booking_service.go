@@ -30,6 +30,7 @@ type BookingServiceInterface interface {
 	UpdateBookingStatus(c *gin.Context, bookingId int, status string) error
 	SearchBooking(entity.Booking) ([]entity.Booking, error)
 	GetAllIncomingBookingDashboard() ([]entity.Booking, error)
+	RejectBooking(c *gin.Context, bookingId int, rejectReason string) error
 }
 
 func (s *BookingService) SaveBooking(c *gin.Context) (entity.Booking, error) {
@@ -133,4 +134,8 @@ func (s *BookingService) SearchBooking(booking entity.Booking) ([]entity.Booking
 
 func (s *BookingService) GetAllIncomingBookingDashboard() ([]entity.Booking, error) {
 	return s.BookingRepository.GetAllIncomingBookingDashboard()
+}
+
+func (s *BookingService) RejectBooking(c *gin.Context, bookingId int, rejectReason string) error {
+	return s.BookingRepository.RejectBooking(bookingId, rejectReason)
 }

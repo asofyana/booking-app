@@ -108,17 +108,27 @@ func (s *BookingHandler) BookingApprovalPost(c *gin.Context) {
 
 	if message == "" {
 		action := c.Request.FormValue("btnAction")
-		if action == "Approve" {
+		switch action {
+		case "Approve":
 			booking.Status = "Approved"
-		} else if action == "Reject" {
+			err := s.BookingService.UpdateBookingStatus(c, bookingIdInt, "Approved")
+			if err == nil {
+				message = "Success"
+				alert = "alert-success"
+			} else {
+				message = "Failed to approve booking"
+			}
+		case "Reject":
 			booking.Status = "Rejected"
-		}
-		err := s.BookingService.UpdateBookingStatus(c, bookingIdInt, booking.Status)
-		if err == nil {
-			message = "Success"
-			alert = "alert-success"
-		} else {
-			message = "Failed to update booking"
+			rejectReason := c.Request.FormValue("reject-reason")
+			booking.RejectReason = rejectReason
+			err := s.BookingService.RejectBooking(c, bookingIdInt, rejectReason)
+			if err == nil {
+				message = "Success"
+				alert = "alert-success"
+			} else {
+				message = "Failed to reject booking"
+			}
 		}
 	}
 
@@ -156,7 +166,7 @@ func (s *BookingHandler) BookingViewPost(c *gin.Context) {
 	if message == "" {
 		action := c.Request.FormValue("btnAction")
 		if action == "Cancel" {
-			booking.Status = "Approved"
+			booking.Status = "Canceled"
 			err := s.BookingService.UpdateBookingStatus(c, bookingIdInt, "Canceled")
 			if err == nil {
 				message = "Success"

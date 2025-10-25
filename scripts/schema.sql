@@ -39,6 +39,7 @@ CREATE TABLE BOOKING (
   organizer text,
   pic text,
   pic_contactno text,
+  reject_reason text,
   status text,
   created_date timestamp default current_timestamp not null,
   created_by text,

@@ -83,6 +83,7 @@
                           <th>{{ T .Context "booking_end_date" nil }}</th>
                           <th>{{ T .Context "booking_room_name" nil }}</th>
                           <th>{{ T .Context "booking_status" nil }}</th>
+                          <th>{{ T .Context "booking_reject_reason" nil }}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -102,6 +103,7 @@
                             {{end}}
 													</td>
 													<td>{{.Status}}</td>
+                          <td>{{.RejectReason}}</td>
                         </tr>
 												{{end}}
 
