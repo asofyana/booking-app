@@ -103,6 +103,13 @@
 												{{.booking.Status}}
 											</div>
 										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="username">{{ T .Context "user_username" nil }} <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												{{.booking.CreatedBy}}
+											</div>
+										</div>
 
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="reject-reason">{{ T .Context "booking_reject_reason" nil }} 
