@@ -129,6 +129,15 @@ func (s *BookingHandler) BookingApprovalPost(c *gin.Context) {
 			} else {
 				message = "Failed to reject booking"
 			}
+		case "Cancel":
+			booking.Status = "Canceled"
+			err := s.BookingService.UpdateBookingStatus(c, bookingIdInt, "Canceled")
+			if err == nil {
+				message = "Success"
+				alert = "alert-success"
+			} else {
+				message = "Failed to cancel booking"
+			}
 		}
 	}
 

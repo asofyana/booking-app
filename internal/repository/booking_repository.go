@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"booking-app/internal/utils"
 )
 
 type BookingRepository struct {
@@ -230,10 +231,10 @@ func (s *BookingRepository) SearchBooking(booking entity.Booking) ([]entity.Book
 func (s *BookingRepository) GetAllIncomingBookingDashboard() ([]entity.Booking, error) {
 	sql := "select a.title, a.start_date, a.end_date, c.room_name, c.css_class " +
 		"from booking a inner join booking_room b on a.booking_id = b.booking_id " +
-		"inner join room c on b.room_id = c.room_id where a.start_date > current_timestamp " +
+		"inner join room c on b.room_id = c.room_id where a.start_date > datetime('now', ?) " +
 		"and a.status in ('Approved', 'Pending') order by a.start_date"
 
-	result, err := s.DB.Query(sql)
+	result, err := s.DB.Query(sql, utils.GetConfig().PrevDays)
 
 	if err != nil {
 		return nil, err

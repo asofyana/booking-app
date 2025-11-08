@@ -126,6 +126,9 @@
 												<button type="submit" name="btnAction" class="btn btn-success" value="Approve">Approve</button>
 												<button type="submit" name="btnAction" class="btn btn-danger" value="Reject">Reject</button>
 												{{end}}
+												{{if and (ne .alert "alert-success") (eq .booking.Status "Approved")}}	
+												<button type="submit" name="btnAction" class="btn btn-danger" value="Cancel">Cancel Booking</button>
+												{{end}}
 												<button type="button" class="btn btn-back" onclick="location.href='/booking/home'">Back</button>
 											</div>
 										</div>

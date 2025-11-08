@@ -13,6 +13,7 @@ type Config struct {
 	DefaultLanguage string `yaml:"defaultLanguage"`
 	Port            string `yaml:"port"`
 	DbFile          string `yaml:"dbFile"`
+	PrevDays        string `yaml:"prevDays"`
 }
 
 var config Config
