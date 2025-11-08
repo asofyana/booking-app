@@ -3,7 +3,6 @@ package handler
 import (
 	"booking-app/internal/entity"
 	"booking-app/internal/services"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
