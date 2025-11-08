@@ -46,6 +46,14 @@
 											</div>
 										</div>
 
+                    <div class="item form-group">
+											<div class="col-md-6 col-sm-6 ">
+												<input type="checkbox" name="select-all" id="select-all" value="select-all" class="flat" /> Select All 
+											</div>
+                    </div>
+                  
+
+
 										<div class="ln_solid"></div>
 										<div class="item form-group">
 											<div class="col-md-6 col-sm-6 offset-md-3">
@@ -127,3 +135,17 @@
     
 <!--Embed the footer.html template at this location-->
 {{ template "footer.html" .}}
+
+<script language="javascript"> 
+    $(document).ready(function() {
+        $('#select-all').change(function() {
+            if ($(this).is(':checked')) {
+                $('#start-date').prop('disabled', true);
+                $('#end-date').prop('disabled', true);
+            } else {
+                $('#start-date').prop('disabled', false);
+                $('#end-date').prop('disabled', false);
+            }
+        });
+    });
+</script>

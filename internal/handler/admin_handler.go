@@ -136,22 +136,28 @@ func (s *AdminHandler) BookingDownload(c *gin.Context) {
 
 func (s *AdminHandler) BookingDownloadPost(c *gin.Context) {
 
-	fmt.Println("BookingDownloadPost called")
-
 	user := services.GetUserSession(c)
 
 	layoutFormat := "2006-01-02 15:04"
+	var startDateTime time.Time
+	var endDateTime time.Time
+	var err error
 
-	startDate := c.PostForm("start-date")
-	startDateTime, err := time.Parse(layoutFormat, startDate+" 00:00")
-	if err != nil {
-		log.Println("Error Parsing startDate: ", err.Error())
-	}
+	selectAll := c.PostForm("select-all")
 
-	endDate := c.PostForm("end-date")
-	endDateTime, err := time.Parse(layoutFormat, endDate+" 00:00")
-	if err != nil {
-		log.Println("Error Parsing endDate: ", err.Error())
+	if selectAll == "" {
+
+		startDate := c.PostForm("start-date")
+		startDateTime, err = time.Parse(layoutFormat, startDate+" 00:00")
+		if err != nil {
+			log.Println("Error Parsing startDate: ", err.Error())
+		}
+
+		endDate := c.PostForm("end-date")
+		endDateTime, err = time.Parse(layoutFormat, endDate+" 00:00")
+		if err != nil {
+			log.Println("Error Parsing endDate: ", err.Error())
+		}
 	}
 
 	booking := entity.Booking{
