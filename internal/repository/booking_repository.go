@@ -84,7 +84,7 @@ func (s *BookingRepository) GetOverlapBookingCount(booking entity.Booking) int {
 	total := 0
 	for _, room := range booking.Rooms {
 		var count int
-		err := s.DB.QueryRow("select count(1) from booking a, booking_room b where a.booking_id = b.booking_id and b.room_id = ? and start_date < ? and end_date > ?", room.RoomId, booking.EndDate, booking.StartDate).Scan(&count)
+		err := s.DB.QueryRow("select count(1) from booking a, booking_room b where a.booking_id = b.booking_id and b.room_id = ? and start_date < ? and end_date > ? and a.status in ('Pending', 'Approved')", room.RoomId, booking.EndDate, booking.StartDate).Scan(&count)
 
 		if err != nil {
 			fmt.Println(err)
