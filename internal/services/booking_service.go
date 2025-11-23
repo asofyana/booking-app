@@ -94,6 +94,10 @@ func (s *BookingService) SaveBooking(c *gin.Context) (entity.Booking, error) {
 	}
 	booking.Rooms = rooms
 
+	if len(rooms) == 0 {
+		return booking, errors.New(utils.Translate("booking_err_select_room", nil))
+	}
+
 	overlapCount := s.BookingRepository.GetOverlapBookingCount(booking)
 	if overlapCount == -1 {
 		return booking, errors.New("Error")

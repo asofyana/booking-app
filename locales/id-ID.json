@@ -13,6 +13,7 @@
   "booking_organizer":"Penyelenggara Kegiatan",
   "booking_pic":"Nama PJ Kegiatan",
   "booking_pic_contactno":"No HP PJ Kegiatan",
+  "booking_err_select_room":"Ruangan belum dipilih",
   "booking_err_overlap":"Ruangan ini sudah dipesan. Silahkan pilih ruangan atau waktu yang lain",
   "booking_download":"Download Booking",
   "booking_success":"Booking Berhasil!",

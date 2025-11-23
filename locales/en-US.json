@@ -13,6 +13,7 @@
   "booking_organizer":"Organizer",
   "booking_pic":"PIC",
   "booking_pic_contactno":"PIC Contact Number",
+  "booking_err_select_room":"Please select at least one room",
   "booking_err_overlap":"date overlap with other booking",
   "booking_download":"Download Booking",
   "booking_success":"Success creating new booking",
