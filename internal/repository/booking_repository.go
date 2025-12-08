@@ -2,12 +2,12 @@ package repository
 
 import (
 	"booking-app/internal/entity"
+	"booking-app/internal/utils"
 	"database/sql"
 	"errors"
 	"fmt"
 	"log"
 	"strings"
-	"booking-app/internal/utils"
 )
 
 type BookingRepository struct {
@@ -184,7 +184,7 @@ func getRoomByBookingId(DB *sql.DB, bookingId int) ([]entity.Room, error) {
 }
 
 func (s *BookingRepository) SearchBooking(booking entity.Booking) ([]entity.Booking, error) {
-	sql := "select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno, IFNULL(a.reject_reason,'') as reject_reason " +
+	sql := "select a.booking_id, a.title, a.start_date, a.end_date, a.participant_count, a.status, a.activity_code, c.lookup_text as activity_text, a.organizer, a.pic, a.pic_contactno, IFNULL(a.reject_reason,'') as reject_reason,created_by " +
 		"from booking a, lookup c where a.activity_code = c.lookup_code and c.lookup_type='ACTIVITY'"
 	conditions := []string{}
 	params := []interface{}{}
@@ -215,7 +215,7 @@ func (s *BookingRepository) SearchBooking(booking entity.Booking) ([]entity.Book
 
 	for result.Next() {
 		var booking entity.Booking
-		err := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo, &booking.RejectReason)
+		err := result.Scan(&booking.BookingId, &booking.Title, &booking.StartDate, &booking.EndDate, &booking.ParticipantCount, &booking.Status, &booking.Activity, &booking.ActivityText, &booking.Organizer, &booking.Pic, &booking.PicContactNo, &booking.RejectReason, &booking.CreatedBy)
 		if err != nil {
 			log.Println("Error scanning booking: ", err.Error())
 			return nil, err

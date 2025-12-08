@@ -92,6 +92,7 @@
                           <th>{{ T .Context "booking_room_name" nil }}</th>
                           <th>{{ T .Context "booking_status" nil }}</th>
                           <th>{{ T .Context "booking_reject_reason" nil }}</th>
+                          <th>{{ T .Context "user_username" nil }}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -112,6 +113,7 @@
 													</td>
 													<td>{{.Status}}</td>
                           <td>{{.RejectReason}}</td>
+                          <td>{{.CreatedBy}}</td>
                         </tr>
 												{{end}}
 
